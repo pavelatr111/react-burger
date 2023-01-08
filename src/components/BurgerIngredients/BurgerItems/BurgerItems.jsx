@@ -1,4 +1,5 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from 'prop-types';
 
 function BurgerItems({ sort, style, name }) {
   return (
@@ -34,6 +35,12 @@ function BurgerItems({ sort, style, name }) {
       </ul>
     </div>
   );
+}
+
+BurgerItems.propTypes = {
+  sort: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  style: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
 }
 
 export default BurgerItems;

@@ -1,15 +1,16 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
 import PropTypes from 'prop-types';
-import React from "react";
+import React, { useMemo } from "react";
 import BurgerItems from "./BurgerItems/BurgerItems";
 
 function BurgerIngredients({ dataBurger }) {
   const [current, setCurrent] = React.useState("bun");
-  const buns = dataBurger.filter((item) => item.type === "bun");
-  const mains = dataBurger.filter((item) => item.type === "main");
-  const sauces = dataBurger.filter((item) => item.type === "sauce");
 
+  const buns = useMemo(() => dataBurger.filter((item) => item.type === "bun"), [dataBurger]);
+  const mains = useMemo(() => dataBurger.filter((item) => item.type !== "main"), [dataBurger]);
+  const sauces = useMemo(() =>  dataBurger.filter((item) => item.type === "sauce"), [dataBurger]);
+  
   return (
     <section className={burgerStyle.main}>
       <h2 className={"text text_type_main-large mt-10 mb-5"}>
