@@ -1,11 +1,10 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
-import { dataBurger } from "../../utils/data";
 
 import React from "react";
 import BurgerItems from "./BurgerItems/BurgerItems";
 
-function BurgerIngredients() {
+function BurgerIngredients({ dataBurger }) {
   const [current, setCurrent] = React.useState("bun");
   const buns = dataBurger.filter((item) => item.type === "bun");
   const mains = dataBurger.filter((item) => item.type === "main");
@@ -43,5 +42,24 @@ function BurgerIngredients() {
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  dataBurger: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      _id:React.PropTypes.string.isRequired,
+       name:React.PropTypes.string.isRequired,
+       type:React.PropTypes.string.isRequired,
+       proteins:React.PropTypes.number.isRequired,
+       fat:React.PropTypes.number.isRequired,
+       carbohydrates:React.PropTypes.number.isRequired,
+       calories:React.PropTypes.number.isRequired,
+       price:React.PropTypes.number.isRequired,
+       image:React.PropTypes.string.isRequired,
+       image_mobile:React.PropTypes.string.isRequiredReact.PropTypes.string,
+       image_large:React.PropTypes.string,
+       __v:React.PropTypes.number
+    })
+  ).isRequired
+};
 
 export default BurgerIngredients;
