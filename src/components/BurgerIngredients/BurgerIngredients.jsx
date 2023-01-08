@@ -1,6 +1,6 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
-
+import PropTypes from 'prop-types';
 import React from "react";
 import BurgerItems from "./BurgerItems/BurgerItems";
 
@@ -44,20 +44,20 @@ function BurgerIngredients({ dataBurger }) {
 }
 
 BurgerIngredients.propTypes = {
-  dataBurger: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      _id:React.PropTypes.string.isRequired,
-       name:React.PropTypes.string.isRequired,
-       type:React.PropTypes.string.isRequired,
-       proteins:React.PropTypes.number.isRequired,
-       fat:React.PropTypes.number.isRequired,
-       carbohydrates:React.PropTypes.number.isRequired,
-       calories:React.PropTypes.number.isRequired,
-       price:React.PropTypes.number.isRequired,
-       image:React.PropTypes.string.isRequired,
-       image_mobile:React.PropTypes.string.isRequiredReact.PropTypes.string,
-       image_large:React.PropTypes.string,
-       __v:React.PropTypes.number
+  dataBurger: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+       name: PropTypes.string.isRequired,
+       type: PropTypes.string.isRequired,
+       proteins: PropTypes.number.isRequired,
+       fat: PropTypes.number.isRequired,
+       carbohydrates: PropTypes.number.isRequired,
+       calories: PropTypes.number.isRequired,
+       price: PropTypes.number.isRequired,
+       image: PropTypes.string.isRequired,
+       image_mobile: PropTypes.string,
+       image_large: PropTypes.string,
+       __v: PropTypes.number
     })
   ).isRequired
 };
