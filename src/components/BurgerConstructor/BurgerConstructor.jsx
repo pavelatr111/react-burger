@@ -1,44 +1,48 @@
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerStyle from "./BurgerConstructor.module.css";
+import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import React from 'react';
 import { dataBurger } from "../../utils/data";
-
-import React from "react";
-import BurgerItems from "./BurgerItems/BurgerItems";
+import constructorStyle from "./BurgerConstructor.module.css";
 
 function BurgerConstructor() {
-  const [current, setCurrent] = React.useState("bun");
-  const buns = dataBurger.filter((item) => item.type === "bun");
-  const mains = dataBurger.filter((item) => item.type === "main");
-  const sauces = dataBurger.filter((item) => item.type === "sauce");
 
-  return (
-    <section className={burgerStyle.main}>
-      <h2 className={"text text_type_main-large mt-10 mb-5"}>
-        Соберите бургер
-      </h2>
-      <div className={burgerStyle.tab}>
-        <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
-          Булки
-        </Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
-          Соусы
-        </Tab>
-        <Tab value="main" active={current === "main"} onClick={setCurrent}>
-          Начинки
-        </Tab>
-      </div>
-      <div className={burgerStyle.wrapper}>
-        <div className={burgerStyle.scroll + ' custom-scroll pt-10'}>
-        <div>
-            <BurgerItems sort={buns}  style={burgerStyle}  name={'Булки'}/>
-        </div>
-        <div>
-            <BurgerItems sort={sauces}  style={burgerStyle}  name={'Соусы'}/>
-        </div>
-        </div>
-      </div>
-    </section>
-  );
+    const buns = dataBurger.filter((item) => item.type === "bun");
+    const filings = dataBurger.filter((item) => item.type !== "bun");
+   console.log(filings);
+    
+    return ( 
+        <section className={constructorStyle.constructor}>
+             <div className={`mb-10 mt-25`} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <ConstructorElement
+        type="top"
+        isLocked={true}
+        text="Краторная булка N-200i (верх)"
+        price={200}
+        thumbnail={buns[1].image}
+      />
+      <ul className={'text custom-scroll ' + constructorStyle.filings}>
+       {filings.map((item) => (
+        <ConstructorElement
+        text={item.name}
+        price={item.price}
+        thumbnail={item.image}
+        key={item._id}
+      />
+       ))}
+      </ul>
+      <ConstructorElement
+        type="bottom"
+        isLocked={true}
+        text="Краторная булка N-200i (низ)"
+        price={200}
+        thumbnail={buns[0].image}
+      />
+    </div>
+    <div className={`mr-4 ${constructorStyle.price}`}>
+          <span className={'text text_type_digits-medium mr-10 ' }>{2000}{<CurrencyIcon />}</span>
+          <Button size="large" type="primary" htmlType='button'>Оформить заказ</Button>
+        </div> 
+        </section>
+     );
 }
 
 export default BurgerConstructor;

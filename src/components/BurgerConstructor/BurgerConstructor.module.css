@@ -1,41 +1,18 @@
-.main {
-    box-sizing: border-box;
-	width: 600px;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+.constructor {
+  width: 600px;
+  margin: 0;
 }
 
-.tab {
-    display: flex;
+.filings {
+  overflow-y: scroll;
+  list-style-type: none;
+  max-height: 480px;
 }
 
-.wrapper {
-	margin: 0 auto;
-	height: 756px;
+.price {
+    margin-left: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
-.scroll {
-	overflow-y: scroll;
-	height: 660px;
-}
-
-.list {
-	margin: 0;
-    padding: 0;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	row-gap: 32px;
-	column-gap: 24px;
-	list-style-type: none;
-	cursor: pointer;
-}
-
-.listItem {
-    position: relative;
-  }
-  
-  .paragraph {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-  }
