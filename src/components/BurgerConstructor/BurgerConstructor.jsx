@@ -4,17 +4,20 @@ import {
   CurrencyIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import constructorStyle from "./BurgerConstructor.module.css";
+import Modal from "../Modal/Modal";
+import OrderDetails from "../Modal/OrderDetails/OrderDetails";
 
 function BurgerConstructor({ dataBurger }) {
 
   const buns = useMemo(() => dataBurger.filter((item) => item.type === "bun"), [dataBurger]);
   const filings = useMemo(() => dataBurger.filter((item) => item.type !== "bun"), [dataBurger]);
   const sum = useMemo(() => filings.reduce((acc, item) => acc + item.price, 0), [filings]);
-  
-    
+
+  const [constructorPopupOpen, setConstructorPopupOpen] = useState(false);
+
   return (
     <section className={constructorStyle.constructor}>
       <div
@@ -22,13 +25,15 @@ function BurgerConstructor({ dataBurger }) {
         style={{ display: "flex", flexDirection: "column", gap: "10px" }}
       >
         <div  className="mb-4 ml-4 mr-4 pl-8">
-          <ConstructorElement
+        {buns && (
+        <ConstructorElement
             type="top"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={buns[1].image}
+            text={buns[0]?.name + ' (верх)'}
+            thumbnail={buns[0]?.image}
+            price={buns[0]?.price}
           />
+        )}
         </div>
         <ul className={"text custom-scroll " + constructorStyle.filings}>
           {filings.map((item) => (
@@ -46,9 +51,9 @@ function BurgerConstructor({ dataBurger }) {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-            thumbnail={buns[0].image}
+            text={buns[1]?.name + ' (верх)'}
+            price={buns[1]?.price}
+            thumbnail={buns[1]?.image}
           />
         </div>
       </div>
@@ -57,11 +62,17 @@ function BurgerConstructor({ dataBurger }) {
           {sum}
           {<CurrencyIcon />}
         </span>
-        <Button size="large" type="primary" htmlType="button">
+        <Button size="large" type="primary" htmlType="button" onClick={() => setConstructorPopupOpen(true)}>
           Оформить заказ
         </Button>
       </div>
+      {constructorPopupOpen && (
+        <Modal title={" "} closePopup={setConstructorPopupOpen}>
+          <OrderDetails />
+        </Modal>
+      )} 
     </section>
+    
   );
 }
 
