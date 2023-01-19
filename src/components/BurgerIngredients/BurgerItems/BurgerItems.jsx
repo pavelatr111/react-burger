@@ -9,12 +9,10 @@ function BurgerItems({
   setCurrentIngredient,
 }) {
   const handleIngClick = (evt) => {
-    console.log(evt.currentTarget.id);
     const id = evt.currentTarget.id;
     const current = sort.find((element) => element._id === id);
-    console.log(current);
     setCurrentIngredient(current);
-    setIngredientPopupOpen(true);
+
   };
 
   return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function ModalOverlay({closePopup}) {
   return(
-    <div className={style.overlay} onClick={() => closePopup(false)}></div>
+    <div className={style.overlay} onClick={() => closePopup(null)}></div>
   )
 }
 

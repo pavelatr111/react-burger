@@ -4,17 +4,20 @@ import {
   CurrencyIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import constructorStyle from "./BurgerConstructor.module.css";
+import Modal from "../Modal/Modal";
+import OrderDetails from "../Modal/OrderDetails/OrderDetails";
 
-function BurgerConstructor({ dataBurger, setIngredientPopupOpen }) {
+function BurgerConstructor({ dataBurger }) {
 
   const buns = useMemo(() => dataBurger.filter((item) => item.type === "bun"), [dataBurger]);
   const filings = useMemo(() => dataBurger.filter((item) => item.type !== "bun"), [dataBurger]);
   const sum = useMemo(() => filings.reduce((acc, item) => acc + item.price, 0), [filings]);
-  
-    console.log(buns);
+
+  const [constructorPopupOpen, setConstructorPopupOpen] = useState(false);
+
   return (
     <section className={constructorStyle.constructor}>
       <div
@@ -59,11 +62,17 @@ function BurgerConstructor({ dataBurger, setIngredientPopupOpen }) {
           {sum}
           {<CurrencyIcon />}
         </span>
-        <Button size="large" type="primary" htmlType="button" onClick={() => setIngredientPopupOpen(true)}>
+        <Button size="large" type="primary" htmlType="button" onClick={() => setConstructorPopupOpen(true)}>
           Оформить заказ
         </Button>
       </div>
+      {constructorPopupOpen && (
+        <Modal title={" "} closePopup={setConstructorPopupOpen}>
+          <OrderDetails />
+        </Modal>
+      )} 
     </section>
+    
   );
 }
 

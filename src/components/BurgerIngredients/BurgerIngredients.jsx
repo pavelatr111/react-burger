@@ -1,14 +1,18 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
 import PropTypes from "prop-types";
-import React, { useMemo } from "react";
+import React, { useMemo} from "react";
 import BurgerItems from "./BurgerItems/BurgerItems";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
 
 function BurgerIngredients({
   dataBurger,
   setIngredientPopupOpen,
   setCurrentIngredient,
+  currentIngredient
 }) {
+
   const [current, setCurrent] = React.useState("bun");
 
   const buns = useMemo(
@@ -71,6 +75,11 @@ function BurgerIngredients({
           </div>
         </div>
       </div>
+      {currentIngredient && (
+        <Modal title={"Детали ингредиента"} closePopup={setCurrentIngredient}>
+          <IngredientDetails currentIngredient={currentIngredient} />
+        </Modal>
+      )}
     </section>
   );
 }
