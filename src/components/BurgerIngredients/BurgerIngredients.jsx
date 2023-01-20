@@ -1,17 +1,19 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
 import PropTypes from "prop-types";
-import React, { useMemo} from "react";
+import React, { useContext, useMemo} from "react";
 import BurgerItems from "./BurgerItems/BurgerItems";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
+import { burgerContext } from "../../contexts/burgerContext";
 
 function BurgerIngredients({
-  dataBurger,
-  setIngredientPopupOpen,
   setCurrentIngredient,
   currentIngredient
 }) {
+
+  const { dataBurger } = useContext(burgerContext);
+
 
   const [current, setCurrent] = React.useState("bun");
 
@@ -20,7 +22,7 @@ function BurgerIngredients({
     [dataBurger]
   );
   const mains = useMemo(
-    () => dataBurger.filter((item) => item.type !== "main"),
+    () => dataBurger.filter((item) => item.type === "main"),
     [dataBurger]
   );
   const sauces = useMemo(
@@ -51,7 +53,7 @@ function BurgerIngredients({
               sort={buns}
               style={burgerStyle}
               name={"Булки"}
-              setIngredientPopupOpen={setIngredientPopupOpen}
+              // setIngredientPopupOpen={setIngredientPopupOpen}
               setCurrentIngredient={setCurrentIngredient}
             />
           </div>
@@ -60,7 +62,7 @@ function BurgerIngredients({
               sort={sauces}
               style={burgerStyle}
               name={"Соусы"}
-              setIngredientPopupOpen={setIngredientPopupOpen}
+              // setIngredientPopupOpen={setIngredientPopupOpen}
               setCurrentIngredient={setCurrentIngredient}
             />
           </div>
@@ -69,7 +71,7 @@ function BurgerIngredients({
               sort={mains}
               style={burgerStyle}
               name={"Начинки"}
-              setIngredientPopupOpen={setIngredientPopupOpen}
+              // setIngredientPopupOpen={setIngredientPopupOpen}
               setCurrentIngredient={setCurrentIngredient}
             />
           </div>
@@ -85,22 +87,22 @@ function BurgerIngredients({
 }
 
 BurgerIngredients.propTypes = {
-  dataBurger: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ).isRequired,
+  // dataBurger: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     _id: PropTypes.string.isRequired,
+  //     name: PropTypes.string.isRequired,
+  //     type: PropTypes.string.isRequired,
+  //     proteins: PropTypes.number.isRequired,
+  //     fat: PropTypes.number.isRequired,
+  //     carbohydrates: PropTypes.number.isRequired,
+  //     calories: PropTypes.number.isRequired,
+  //     price: PropTypes.number.isRequired,
+  //     image: PropTypes.string.isRequired,
+  //     image_mobile: PropTypes.string,
+  //     image_large: PropTypes.string,
+  //     __v: PropTypes.number,
+  //   })
+  // ).isRequired,
 };
 
 export default BurgerIngredients;
