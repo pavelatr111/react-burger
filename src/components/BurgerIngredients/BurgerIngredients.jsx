@@ -1,26 +1,35 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
-import PropTypes from "prop-types";
-import React, { useContext, useMemo} from "react";
+// import PropTypes from "prop-types";
+import React, { useEffect, useMemo, useRef } from "react";
 import BurgerItems from "./BurgerItems/BurgerItems";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
-import { burgerContext } from "../../contexts/burgerContext";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentIngredient } from "../../services/actions/ingredientDitails";
+import { setCurrentTabAction } from "../../services/actions/burgerIngredients";
+import { useInView } from "react-intersection-observer";
 
 function BurgerIngredients({
   setCurrentIngredient,
-  currentIngredient
+  // currentIngredient
 }) {
+  const { dataBurger, currentTab } = useSelector((state) => state.ingredients);
+  const { currentIngredient } = useSelector((state) => state.currentIngredient);
+  
+  const dispatch = useDispatch();
 
-  const { dataBurger } = useContext(burgerContext);
-
-
-  const [current, setCurrent] = React.useState("bun");
+  // const bunRef = useRef(null);
+  // const sauceRef = useRef(null);
+  // const mainRef = useRef(null);
+  // const tabRef = useRef(null);
+  // console.log(tabRef.current);
 
   const buns = useMemo(
     () => dataBurger.filter((item) => item.type === "bun"),
     [dataBurger]
   );
+  
   const mains = useMemo(
     () => dataBurger.filter((item) => item.type === "main"),
     [dataBurger]
@@ -30,55 +39,109 @@ function BurgerIngredients({
     [dataBurger]
   );
 
+
+const [bunRef, inViewBuns] = useInView({
+  threshold: 0,
+});
+
+const [mainRef, inViewFilling] = useInView({
+  threshold: 0,
+});
+const [sauceRef, inViewSauces] = useInView({
+  threshold: 0,
+});
+
+useEffect(() => {
+  if (inViewBuns) {
+    dispatch(setCurrentTabAction("bun"));
+  } else if (inViewSauces) {
+    dispatch(setCurrentTabAction("sauce"));
+  } else if (inViewFilling) {
+    dispatch(setCurrentTabAction("main"));
+  }
+}, [inViewBuns, inViewFilling, inViewSauces]);
+
+const setCurrent = (tab) => {
+  console.log(tab);
+  dispatch(setCurrentTabAction(tab));
+  const element = document.getElementById(tab);
+  console.log(element);
+  if (element) element.scrollIntoView({ behavior: "smooth" });
+}
+
+// useEffect(() => {
+//   if (currentTab === "bun") {
+//     bunRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }
+//   if (currentTab === "sauce") {
+//     sauceRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }
+//   if (currentTab === "main") {
+//     mainRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }
+// }, [currentTab]);
+
+
+
+//   const setCurrent = (value) => {
+//     c
+//   };
+  
+  
   return (
     <section className={burgerStyle.main}>
       <h2 className={"text text_type_main-large mt-10 mb-5"}>
         Соберите бургер
       </h2>
       <div className={burgerStyle.tab}>
-        <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
+        <Tab value="bun" active={currentTab === "bun"} onClick={setCurrent}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
+        <Tab value="sauce" active={currentTab === "sauce"} onClick={setCurrent}>
           Соусы
         </Tab>
-        <Tab value="mains" active={current === "mains"} onClick={setCurrent}>
+        <Tab value="main" active={currentTab === "main"} onClick={setCurrent}>
           Начинки
         </Tab>
       </div>
       <div className={burgerStyle.wrapper}>
-        <div className={`${burgerStyle.scroll} custom-scroll pt-10`}>
-          <div>
+        <div className={`${burgerStyle.scroll} custom-scroll pt-10`} >
+          <div ref={bunRef} id="bun">
             <BurgerItems
-              sort={buns}
+              sort ={buns}
               style={burgerStyle}
               name={"Булки"}
+              
               // setIngredientPopupOpen={setIngredientPopupOpen}
-              setCurrentIngredient={setCurrentIngredient}
+              // setCurrentIngredient={setCurrentIngredient}
             />
           </div>
-          <div>
+          <div ref={sauceRef} id="sauce">
             <BurgerItems
               sort={sauces}
               style={burgerStyle}
               name={"Соусы"}
+
               // setIngredientPopupOpen={setIngredientPopupOpen}
-              setCurrentIngredient={setCurrentIngredient}
+              // setCurrentIngredient={setCurrentIngredient}
             />
           </div>
-          <div>
+          <div ref={mainRef} id="main">
             <BurgerItems
               sort={mains}
               style={burgerStyle}
               name={"Начинки"}
               // setIngredientPopupOpen={setIngredientPopupOpen}
-              setCurrentIngredient={setCurrentIngredient}
+              // setCurrentIngredient={setCurrentIngredient}
             />
           </div>
         </div>
       </div>
       {currentIngredient && (
-        <Modal title={"Детали ингредиента"} closePopup={setCurrentIngredient}>
+        <Modal
+          title={"Детали ингредиента"}
+          closePopup={() => dispatch(getCurrentIngredient(null))}
+        >
           <IngredientDetails currentIngredient={currentIngredient} />
         </Modal>
       )}

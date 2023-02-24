@@ -4,13 +4,15 @@ import ModalOverlay from "./ModalOverlay/ModalOverlay";
 import ReactDOM from "react-dom";
 import { useEffect } from "react";
 import PropTypes from 'prop-types';
+import { useDispatch } from "react-redux";
+import { currentIngredientReducer } from "../../services/reducers/ingredientDitails";
 
 function Modal({ children, title, closePopup}) {
 
   useEffect(() => {
     const handleEscClose = (evt) => {
       if (evt.key === 'Escape') {
-        closePopup(false)
+        closePopup()
       }
     }
     document.addEventListener('keydown', handleEscClose);
@@ -25,7 +27,7 @@ function Modal({ children, title, closePopup}) {
         <h3 className="pl-10 pt-10 text text_color_primary text_type_main-large">
           {title}
         </h3>
-        <span className={style.closeIcon} onClick={() => closePopup(false)}>
+        <span className={style.closeIcon} onClick={closePopup}>
           <CloseIcon type="primary" />
         </span>
         {children}

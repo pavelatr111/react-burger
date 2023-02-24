@@ -22,3 +22,32 @@
   justify-content: space-between;
   align-items: center;
 }
+.nonFilings {
+    composes: constructor-element from global;
+    margin-left: calc(var(--offset-base-size) * 12);
+    margin-right: calc(var(--offset-base-size) * 4);
+}
+.nonFilings__title {
+  text-align: center;
+} 
+.nonFilings__hover {
+  composes: constructor-element from global;
+    margin-left: calc(var(--offset-base-size) * 12);
+    margin-right: calc(var(--offset-base-size) * 4);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dummy {
+  composes: constructor-element from global;
+  /* margin-left: calc(var(--offset-base-size) * 12); */
+  margin-right: calc(var(--offset-base-size) * 4);
+}
+.dummy_pos_top {
+  composes: constructor-element_pos_top from global;
+  flex-grow: 0;
+}
+
+.dummy_pos_bottom {
+  composes: constructor-element_pos_bottom from global;
+  flex-grow: 0;
+}

@@ -1,7 +1,10 @@
 import style from './IngredientDetails.module.css'
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
 
-function IngredientDetails({ currentIngredient}) {
+function IngredientDetails() {
+  const {currentIngredient} =useSelector((state) => state.currentIngredient)
+
     return (
         <div className={style.wrapper + ' pb-15 pl-10 pr-10'} currentingredient={currentIngredient._id}>
           <img src={currentIngredient.image_large} alt={currentIngredient.name} />
