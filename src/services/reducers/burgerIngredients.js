@@ -21,7 +21,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                 ...state,
                 dataBurger: action.payload,
                 feedRequest: false
-            }   
+            }
         }
         case GET_INGREDIENTS_ERROR: {
             return {
@@ -29,7 +29,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                 feedRequest: false,
                 feedFailed: true,
             }
-        } 
+        }
         case CURRENT__TAB: {
             return {
                 ...state,

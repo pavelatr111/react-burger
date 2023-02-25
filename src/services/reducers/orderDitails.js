@@ -5,7 +5,7 @@ const initialState = {
     feedFailed: false,
     order: null,
     orderPopupShow: false
-    
+
 }
 
 

@@ -1,11 +1,9 @@
 import style from "./OrderDetails.module.css";
 import doneImg from "../../../images/order accpeted/graphics.svg";
-import { useContext } from "react";
-import { OrderContext } from "../../../contexts/orderContext";
 import { useSelector } from "react-redux";
 
 function OrderDetails() {
-  const { order, feedRequest, feedFailed } = useSelector(
+  const { order, feedRequest} = useSelector(
     (state) => state.order
   );
 

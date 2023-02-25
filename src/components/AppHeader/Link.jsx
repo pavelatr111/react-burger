@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-
+import PropTypes from "prop-types";
 
 function Link({ lclass, href, icon, paragraphClass, text }) {
   return (
@@ -10,14 +9,11 @@ function Link({ lclass, href, icon, paragraphClass, text }) {
 }
 
 Link.propTypes = {
-  // sort: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-  // style: PropTypes.object.isRequired,
- href: PropTypes.string.isRequired,
- lclass: PropTypes.string.isRequired,
- icon: PropTypes.node.isRequired,
- paragraphClass: PropTypes.string.isRequired,
- text: PropTypes.string.isRequired
-
-}
+  href: PropTypes.string.isRequired,
+  lclass: PropTypes.string.isRequired,
+  icon: PropTypes.node.isRequired,
+  paragraphClass: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+};
 
 export default Link;

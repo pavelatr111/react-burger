@@ -5,15 +5,15 @@ const initialState = {
 }
 
 export const currentIngredientReducer = (state = initialState, action) => {
- switch (action.type) {
-    case GET__CURRENT_INGREDIENT: {
-        return {
-            ...state,
-            currentIngredient: action.payload
+    switch (action.type) {
+        case GET__CURRENT_INGREDIENT: {
+            return {
+                ...state,
+                currentIngredient: action.payload
+            }
+        }
+        default: {
+            return state;
         }
     }
-    default: {
-        return state;
-    }
- }
 }

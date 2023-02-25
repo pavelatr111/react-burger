@@ -2,15 +2,11 @@ import {
   Button,
   ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useContext, useMemo, useRef, useState } from "react";
-// import PropTypes from "prop-types";
+import { useMemo } from "react";
 import constructorStyle from "./BurgerConstructor.module.css";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../Modal/OrderDetails/OrderDetails";
-
-import { OrderContext } from "../../contexts/orderContext";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -18,16 +14,14 @@ import {
   postOrderAction,
   resetOrderAction,
 } from "../../services/actions/orderDitails";
-import { useDrag, useDrop } from "react-dnd";
-import { addIngredient, removeIngredient, updateConstructor } from "../../services/actions/burgerConstructor";
+import { useDrop } from "react-dnd";
+import { addIngredient } from "../../services/actions/burgerConstructor";
 import BurgerConstructorItem from "./BurgerItem/BurgerConstructorItem";
 
 function BurgerConstructor() {
-  // const { dataBurger } = useSelector((state) => state.ingredients);
   const { buns, ingredients } = useSelector((state) => state.burger);
   const { orderPopupShow } = useSelector((state) => state.order);
   const dispatch = useDispatch();
-  const ref = useRef()
 
   const sum = useMemo(() => {
     return (
@@ -81,7 +75,12 @@ function BurgerConstructor() {
           )}
         </div>
         {ingredients.length === 0 ? (
-          <div className={ constructorStyle.nonFilings + ` ${isHover && constructorStyle.nonFilings__hover}` }>
+          <div
+            className={
+              constructorStyle.nonFilings +
+              ` ${isHover && constructorStyle.nonFilings__hover}`
+            }
+          >
             <h1
               className={`"text text_type_main-medium mt-5 mb-5"  ${constructorStyle.nonFilings__title} `}
             >
@@ -91,7 +90,12 @@ function BurgerConstructor() {
         ) : (
           <ul className={"text custom-scroll " + constructorStyle.filings}>
             {ingredients.map((item, index) => (
-              <BurgerConstructorItem index={index} item={item} key={item.id} constructorStyle={constructorStyle}/>
+              <BurgerConstructorItem
+                index={index}
+                item={item}
+                key={item.id}
+                constructorStyle={constructorStyle}
+              />
             ))}
           </ul>
         )}
@@ -134,24 +138,5 @@ function BurgerConstructor() {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  // dataBurger: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     _id: PropTypes.string.isRequired,
-  //     name: PropTypes.string.isRequired,
-  //     type: PropTypes.string.isRequired,
-  //     proteins: PropTypes.number.isRequired,
-  //     fat: PropTypes.number.isRequired,
-  //     carbohydrates: PropTypes.number.isRequired,
-  //     calories: PropTypes.number.isRequired,
-  //     price: PropTypes.number.isRequired,
-  //     image: PropTypes.string.isRequired,
-  //     image_mobile: PropTypes.string,
-  //     image_large: PropTypes.string,
-  //     __v: PropTypes.number,
-  //   }).isRequired
-  // ).isRequired,
-};
 
 export default BurgerConstructor;
