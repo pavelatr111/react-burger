@@ -51,10 +51,10 @@ function BurgerIngredients() {
   }, [inViewBuns, inViewFilling, inViewSauces]);
 
   const setCurrent = (tab) => {
-    console.log(tab);
+    // console.log(tab);
     dispatch(setCurrentTabAction(String(tab)));
     const element = document.getElementById(tab);
-    console.log(element);
+    // console.log(element);
     element.scrollIntoView({ behavior: "smooth" });
   };
 
