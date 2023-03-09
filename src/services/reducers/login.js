@@ -42,8 +42,8 @@ export function loginReducer(state = initialState, action) {
         case LOGOUT_SUCCESS: {
             return {
                 ...state,
-                logout: action.payload.success,
-                user: {},
+                success: !action.payload.success,
+                user: null,
                 feedRequest: false
             }
         }

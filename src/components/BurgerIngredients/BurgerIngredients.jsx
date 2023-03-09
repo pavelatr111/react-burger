@@ -99,14 +99,6 @@ function BurgerIngredients() {
           </div>
         </div>
       </div>
-      {currentIngredient && (
-        <Modal
-          title={"Детали ингредиента"}
-          closePopup={() => dispatch(getCurrentIngredient(null))}
-        >
-          <IngredientDetails currentIngredient={currentIngredient} />
-        </Modal>
-      )}
     </section>
   );
 }

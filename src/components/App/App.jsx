@@ -1,6 +1,6 @@
 import AppHeader from "../AppHeader/AppHeader";
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBurgerIngredients } from "../../services/actions/burgerIngredients";
 import Main from "../../pages/Main";
@@ -15,16 +15,25 @@ import { IngredientPage } from "../../pages/IngrdientPage";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
 import { getCurrentIngredient } from "../../services/actions/ingredientDitails";
+import { getUserActions } from "../../services/actions/user";
+import { getCookie } from "../../utils/token";
+import { refreshToken } from "../../utils/MainAPI";
 
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
-  let { state } = useLocation();
+  const navigate = useNavigate();
+  const access = getCookie("access")
+
   const background = location.state && location.state.background;
-  const { currentIngredient } = useSelector((state) => state.currentIngredient);
+
 
 console.log(background);
   useEffect(() => {
+    if (access) {
+      dispatch(getUserActions());
+    } 
+    refreshToken(localStorage.getItem('refresh'));
     dispatch(getBurgerIngredients());
   }, [dispatch]);
 
@@ -53,8 +62,8 @@ console.log(background);
         //   </Route>
         // </>
         <Routes>
-        <Route path={state} element={
-          <Modal  title={"Детали ингредиента"} closePopup={() => dispatch(getCurrentIngredient(null))}>
+        <Route path="/ingredients/:id" element={
+          <Modal  title={"Детали ингредиента"} closePopup={() => navigate(-1)}>
              <IngredientDetails />
           </Modal>
         } />

@@ -17,10 +17,15 @@ import {
 import { useDrop } from "react-dnd";
 import { addIngredient } from "../../services/actions/burgerConstructor";
 import BurgerConstructorItem from "./BurgerItem/BurgerConstructorItem";
+import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../utils/token";
 
 function BurgerConstructor() {
+  const navigate = useNavigate();
   const { buns, ingredients } = useSelector((state) => state.burger);
   const { orderPopupShow } = useSelector((state) => state.order);
+  const authorization = getCookie('access') ? true : false
+  console.log(authorization);
   const dispatch = useDispatch();
 
   const sum = useMemo(() => {
@@ -41,10 +46,14 @@ function BurgerConstructor() {
   });
 
   const orderRequest = () => {
-    const newArray = ingredients.concat(buns);
+    if(!authorization){
+      navigate('/login');
+    } else {
+      const newArray = ingredients.concat(buns);
     const ingredientId = newArray.map((element) => element._id);
     dispatch(orderPopupAction());
     dispatch(postOrderAction(ingredientId));
+    }
   };
 
   const orderPopupClose = () => {

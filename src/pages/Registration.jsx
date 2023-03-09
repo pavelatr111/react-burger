@@ -14,7 +14,8 @@ function Registration() {
   });
 
   const success = useSelector((state) => state.registration.success)
-  
+  const user = useSelector((state) => state.login.success)
+
   console.log(success);
   const registrationHandler = (evt) => {
     evt.preventDefault();
@@ -27,6 +28,16 @@ function Registration() {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
   };
+
+  if (user) {
+    return (
+            // Переадресовываем авторизованного пользователя на главную страницу
+      <Navigate
+        to="/"
+                replace
+      />
+    );
+  }
 
   if (success) {
     return (

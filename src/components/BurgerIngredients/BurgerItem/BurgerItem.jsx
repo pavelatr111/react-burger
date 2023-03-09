@@ -1,7 +1,7 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import { useDrag } from "react-dnd";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import { ingredientPropType } from "../../../utils/propTypes";
 
 
@@ -18,9 +18,8 @@ function BurgerItem({ item, style, handleIngClick, count }) {
     return (
         <>
             <Link  to={{
-                pathname: `/ingredients/${item._id}`,
-                state: { background: location }
-            }}>
+                pathname: `/ingredients/${item._id}`
+            }} state= { {background: location} } className={style.link}>
                 <li ref={dragRef} style={{ opacity }} id={item._id} className={style.listItem} onClick={handleIngClick} >
                     <img
                         src={item.image}

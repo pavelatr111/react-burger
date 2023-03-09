@@ -82,12 +82,12 @@ function logout(){
   .then(responce)
 }
 
-function refreshToken(){
+function refreshToken(token){
   return fetch(`${MainBurgerApi}auth/token`,{
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      token: localStorage.getItem('refresh')
+      token: token
     })
   })
   .then(responce)
@@ -97,7 +97,7 @@ function getUser(){
   return fetch(`${MainBurgerApi}auth/user`,{
     method: "GET",
     headers:  {
-      authorization: 'Bearer ' + getCookie('access'),
+      'authorization': 'Bearer ' + getCookie('access'),
       'Content-Type': 'application/json'
     }
   })

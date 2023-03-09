@@ -8,9 +8,9 @@ function ProfileForm() {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getUserActions());
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getUserActions());
+    // }, [dispatch])
 
     const userName = useSelector(state => state.user.user.name);
     const userEmail = useSelector(state => state.user.user.email);

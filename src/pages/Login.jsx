@@ -7,17 +7,19 @@ import styles from "./App.module.css"
 
 function Login() {
     const dispatch = useDispatch()
+
     const [value, setValue] = useState({
         email: '',
         password: ''
     })
     const success = useSelector((state) => state.login.success)
-
+    console.log(success);
     const authorizationHandler = (evt) => {
         evt.preventDefault();
         dispatch(loginActions(value.email, value.password));
     }
 
+   
     if (success) {
         return (
             <Navigate
