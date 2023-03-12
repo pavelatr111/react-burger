@@ -2,79 +2,125 @@ import {
   Button,
   ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import  { useContext, useMemo, useState } from "react";
-import PropTypes from "prop-types";
+import { useMemo } from "react";
 import constructorStyle from "./BurgerConstructor.module.css";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../Modal/OrderDetails/OrderDetails";
-import { burgerContext } from "../../contexts/burgerContext";
-import { orderPost } from "../../utils/MainAPI";
-import { OrderContext } from "../../contexts/orderContext";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  orderPopupAction,
+  postOrderAction,
+  resetOrderAction,
+} from "../../services/actions/orderDitails";
+import { useDrop } from "react-dnd";
+import { addIngredient } from "../../services/actions/burgerConstructor";
+import BurgerConstructorItem from "./BurgerItem/BurgerConstructorItem";
+import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../utils/token";
 
 function BurgerConstructor() {
-
-  const { dataBurger } = useContext(burgerContext);
-  const buns = useMemo(() => dataBurger.find((item) => item.type === 'bun'), [dataBurger]);
-  const filings = useMemo(() => dataBurger.filter((item) => item.type !== "bun"), [dataBurger]);
-
-  const { orderDetails, setOrderDetails } = useContext(OrderContext);
+  const navigate = useNavigate();
+  const { buns, ingredients } = useSelector((state) => state.burger);
+  const { orderPopupShow } = useSelector((state) => state.order);
+  const authorization = getCookie('access') ? true : false
+  const dispatch = useDispatch();
 
   const sum = useMemo(() => {
-    return dataBurger.reduce(
-      (acc, item) => 
-      item.type === buns ? acc + item.price * 2 : acc + item.price, 0);
-  }, [dataBurger, buns]);
+    return (
+      ingredients.reduce((acc, curr) => acc + curr.price, 0) +
+      (buns ? buns.price * 2 : 0)
+    );
+  }, [buns, ingredients]);
 
-  const [constructorPopupOpen, setConstructorPopupOpen] = useState(false);
+  const [{ isHover }, dropRef] = useDrop({
+    accept: "ingredient",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      dispatch(addIngredient(item));
+    },
+  });
 
   const orderRequest = () => {
-    const newArray = filings.concat(buns);
-    const ingredientId = newArray.map((element) => element._id)
-    orderPost(ingredientId)
-    .then(res => setOrderDetails(res))
-      .catch(err => console.log(`Ошибка ${err.status}`))
-    setConstructorPopupOpen(true);
-  }
-  
+    if(!authorization){
+      navigate('/login');
+    } else {
+      const newArray = ingredients.concat(buns);
+    const ingredientId = newArray.map((element) => element._id);
+    dispatch(orderPopupAction());
+    dispatch(postOrderAction(ingredientId));
+    }
+  };
+
+  const orderPopupClose = () => {
+    dispatch(orderPopupAction());
+    dispatch(resetOrderAction());
+  };
+
   return (
     <section className={constructorStyle.constructor}>
       <div
+        ref={dropRef}
         className={`mb-10 mt-25`}
         style={{ display: "flex", flexDirection: "column", gap: "10px" }}
       >
-        <div  className="mb-4 ml-4 mr-4 pl-8">
-        {buns && (
-        <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={buns?.name + ' (верх)'}
-            thumbnail={buns?.image}
-            price={buns?.price}
-          />
-        )}
-        </div>
-        <ul className={"text custom-scroll " + constructorStyle.filings}>
-          {filings.map((item) => (
-            <li className={`mb-4 ${constructorStyle.list}`} key={item._id}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </li>
-          ))}
-        </ul>
         <div className="mb-4 ml-4 mr-4 pl-8">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={buns?.name + '(низ)'}
-            price={buns?.price}
-            thumbnail={buns?.image}
-          />
+          {buns ? (
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={buns?.name + " (верх)"}
+              thumbnail={buns?.image}
+              price={buns?.price}
+            />
+          ) : (
+            <div
+              className={`${constructorStyle.dummy} ${constructorStyle.dummy_pos_top}`}
+            />
+          )}
+        </div>
+        {ingredients.length === 0 ? (
+          <div
+            className={
+              constructorStyle.nonFilings +
+              ` ${isHover && constructorStyle.nonFilings__hover}`
+            }
+          >
+            <h1
+              className={`"text text_type_main-medium mt-5 mb-5"  ${constructorStyle.nonFilings__title} `}
+            >
+              Перетащите ингредиент
+            </h1>
+          </div>
+        ) : (
+          <ul className={"text custom-scroll " + constructorStyle.filings}>
+            {ingredients.map((item, index) => (
+              <BurgerConstructorItem
+                index={index}
+                item={item}
+                key={item.id}
+                constructorStyle={constructorStyle}
+              />
+            ))}
+          </ul>
+        )}
+        <div className="mt-4 ml-4 mr-4 pl-8">
+          {buns ? (
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={buns?.name + "(низ)"}
+              price={buns?.price}
+              thumbnail={buns?.image}
+            />
+          ) : (
+            <div
+              className={` ${constructorStyle.dummy} ${constructorStyle.dummy_pos_bottom}`}
+            />
+          )}
         </div>
       </div>
       <div className={`mr-4 ${constructorStyle.price}`}>
@@ -82,37 +128,23 @@ function BurgerConstructor() {
           {sum}
           {<CurrencyIcon />}
         </span>
-        <Button size="large" type="primary" htmlType="button" onClick={ orderRequest} >
+        <Button
+          size="large"
+          type="primary"
+          htmlType="button"
+          onClick={orderRequest}
+          disabled={!(buns && ingredients.length)}
+        >
           Оформить заказ
         </Button>
       </div>
-      {constructorPopupOpen && (
-        <Modal title={" "} closePopup={setConstructorPopupOpen}>
+      {orderPopupShow && (
+        <Modal title={" "} closePopup={orderPopupClose}>
           <OrderDetails />
         </Modal>
-      )} 
+      )}
     </section>
-    
   );
 }
-
-BurgerConstructor.propTypes = {
-  // dataBurger: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     _id: PropTypes.string.isRequired,
-  //     name: PropTypes.string.isRequired,
-  //     type: PropTypes.string.isRequired,
-  //     proteins: PropTypes.number.isRequired,
-  //     fat: PropTypes.number.isRequired,
-  //     carbohydrates: PropTypes.number.isRequired,
-  //     calories: PropTypes.number.isRequired,
-  //     price: PropTypes.number.isRequired,
-  //     image: PropTypes.string.isRequired,
-  //     image_mobile: PropTypes.string,
-  //     image_large: PropTypes.string,
-  //     __v: PropTypes.number,
-  //   }).isRequired
-  // ).isRequired,
-};
 
 export default BurgerConstructor;
