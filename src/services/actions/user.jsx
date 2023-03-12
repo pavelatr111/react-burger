@@ -1,4 +1,5 @@
-import { getUser, updateUser } from "../../utils/MainAPI";
+import { getUser, refreshToken, updateUser } from "../../utils/MainAPI";
+import { getCookie, setCookie } from "../../utils/token";
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
@@ -21,10 +22,11 @@ export function getUserActions( ){
                 });
             })
             .catch((e) => {
-                dispatch({
-                    type: GET_USER_ERROR
-                })
-            })
+                if (e.message === "jwt expired" || "jwt malformed") {
+                    dispatch(setRefreshToken(getCookie("refreshToken")));
+            }
+        console.log(e);
+        })
     }
 }
 
@@ -47,3 +49,15 @@ export function updateUserActions( name, email, password){
             })
     }
 }
+
+export const setRefreshToken = () => {
+    return function (dispatch) {
+      refreshToken()
+        .then((res) => {
+          setCookie("access", res.accessToken.split('Bearer ')[1]);
+          setCookie("refreshToken", res.refreshToken);
+          dispatch(getUserActions());
+        })
+    }
+  }
+  

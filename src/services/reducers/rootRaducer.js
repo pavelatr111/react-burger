@@ -7,7 +7,7 @@ import { forgotPasswordReducer } from './forgotPassword';
 import { resetPasswordReducer } from './resetPasswordReducer';
 import { registrationReducer } from './registration';
 import { loginReducer } from './login';
-import { userReducer } from './user';
+
 
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
@@ -18,5 +18,4 @@ export const rootReducer = combineReducers({
     resetPassword: resetPasswordReducer,
     registration: registrationReducer,
     login: loginReducer,
-    user: userReducer
 });

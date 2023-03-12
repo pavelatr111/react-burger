@@ -7,17 +7,14 @@ import styles from "./Profile.module.css";
 export function UserProfile() {
     const dispatch = useDispatch()
     const success = useSelector((state) => state.login.logout)
-    const user = useSelector((state) => state.login.user)
 
-    // console.log(user, success);
 
     const logoutHandler = useCallback(() => {
         dispatch(logoutActions())
-        dispatch()
     }, [dispatch])
 
 
-  if (!success && !user ) {
+  if (success ) {
     return (
         <Navigate
         to={'/login'}

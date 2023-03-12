@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { forgotPasswordActions } from "../services/actions/forgotPassword.js";
+import { getCookie } from "../utils/token.js";
 import styles from "./App.module.css"
 
 function ForgotPassword() {
@@ -12,11 +13,14 @@ function ForgotPassword() {
     })
     const dispatch = useDispatch();
     const success = useSelector((state) => state.forgotPassword.success);
-    // console.log(su);
+    const user = useSelector((state) => state.login.user);
+    const suc = getCookie('access')
+
     const sendEmail = useCallback((evt) => {
         evt.preventDefault()
         dispatch(forgotPasswordActions(value.email))
     },[dispatch] )
+
 
     if (success) {
         return (
@@ -25,6 +29,13 @@ function ForgotPassword() {
           />
         )
     }
+
+    if (user && suc) {
+        return (
+          // Переадресовываем авторизованного пользователя на главную страницу
+          <Navigate to="/" replace />
+        );
+      }
 
     
 

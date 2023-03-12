@@ -10,11 +10,6 @@ import HeaderLink from "./Link";
 import { Link, useMatch } from "react-router-dom";
 
 function AppHeader() {
-  const linkStyle =
-    "text text_type_main-default text_color_primary mt-4 mb-4 pt-4 pb-4 pr-5 pl-5 ";
-  const unActiveStyle =
-    "text text_type_main-default text_color_inactive mt-4 mb-4 pt-4 pb-4 pr-5 pl-5 ";
-
   const matchHome = useMatch("/");
   const matchList = useMatch("/feed");
   const matchProfile = useMatch("/profile");
@@ -24,11 +19,6 @@ function AppHeader() {
       <nav className={headerStyle.nav}>
         <div className={headerStyle.links}>
           <HeaderLink
-            lclass={({ isActive }) =>
-              isActive
-                ? `${linkStyle}${headerStyle.link}`
-                : `${unActiveStyle}${headerStyle.link}`
-            }
             paragraphClass={"ml-2"}
             icon={
               <BurgerIcon type={Boolean(matchHome) ? "primary" : "secondary"} />
@@ -37,11 +27,6 @@ function AppHeader() {
             href={"/"}
           />
           <HeaderLink
-            lclass={({ isActive }) =>
-              isActive
-                ? `${linkStyle}${headerStyle.link}`
-                : `${unActiveStyle}${headerStyle.link}`
-            }
             paragraphClass={"ml-2"}
             icon={
               <ListIcon type={Boolean(matchList) ? "primary" : "secondary"} />
@@ -57,11 +42,6 @@ function AppHeader() {
           </Link>
         </div>
         <HeaderLink
-          lclass={({ isActive }) =>
-            isActive
-              ? `${linkStyle}${headerStyle.link}`
-              : `${unActiveStyle}${headerStyle.link}`
-          }
           paragraphClass={"ml-2"}
           icon={
             <ProfileIcon

@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { registrationActions } from "../services/actions/registration";
+import { getCookie } from "../utils/token";
 import styles from "./App.module.css"
 
 function Registration() {
@@ -14,8 +15,8 @@ function Registration() {
   });
 
   const success = useSelector((state) => state.registration.success)
-  const user = useSelector((state) => state.login.success)
-
+  const user = useSelector((state) => state.login.user)
+  const suc = getCookie('access')
   console.log(success);
   const registrationHandler = (evt) => {
     evt.preventDefault();
@@ -29,7 +30,7 @@ function Registration() {
     alert("Icon Click Callback");
   };
 
-  if (user) {
+  if (user && suc) {
     return (
             // Переадресовываем авторизованного пользователя на главную страницу
       <Navigate

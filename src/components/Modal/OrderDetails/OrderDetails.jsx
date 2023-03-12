@@ -6,7 +6,6 @@ function OrderDetails() {
   const { order, feedRequest} = useSelector(
     (state) => state.order
   );
-
   return (
     <div className={style.order + " pt-15 pb-30 pr-25 pl-25"}>
       {feedRequest ? (
@@ -17,7 +16,7 @@ function OrderDetails() {
         <>
           <div className={style.order}>
             <h3 className={style.number + " text text_type_digits-large mb-8"}>
-              {order.number}
+              {order?.number}
             </h3>
             <p className="text text_type_main-medium mb-15">
               Идентификатор заказа

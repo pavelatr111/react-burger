@@ -2,17 +2,12 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
 import React, { useEffect, useMemo } from "react";
 import BurgerItems from "./BurgerItems/BurgerItems";
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentIngredient } from "../../services/actions/ingredientDitails";
 import { setCurrentTabAction } from "../../services/actions/burgerIngredients";
 import { useInView } from "react-intersection-observer";
 
 function BurgerIngredients() {
   const { dataBurger, currentTab } = useSelector((state) => state.ingredients);
-  const { currentIngredient } = useSelector((state) => state.currentIngredient);
-
   const dispatch = useDispatch();
 
   const buns = useMemo(

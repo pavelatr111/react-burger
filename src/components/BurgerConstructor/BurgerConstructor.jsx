@@ -25,7 +25,6 @@ function BurgerConstructor() {
   const { buns, ingredients } = useSelector((state) => state.burger);
   const { orderPopupShow } = useSelector((state) => state.order);
   const authorization = getCookie('access') ? true : false
-  console.log(authorization);
   const dispatch = useDispatch();
 
   const sum = useMemo(() => {

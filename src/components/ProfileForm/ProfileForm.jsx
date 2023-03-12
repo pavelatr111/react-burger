@@ -1,25 +1,29 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserActions, updateUserActions } from "../../services/actions/user";
+import {  updateUserActions } from "../../services/actions/user";
 import styles from "./ProfileForm.module.css"
 
 function ProfileForm() {
 
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     dispatch(getUserActions());
-    // }, [dispatch])
 
-    const userName = useSelector(state => state.user.user.name);
-    const userEmail = useSelector(state => state.user.user.email);
-
+    const userName = useSelector(state => state.login.user.name);
+    const userEmail = useSelector(state => state.login.user.email);
+    console.log(userName, userEmail);
+    
     const [value, setValue] = useState({
         name: userName,
         email: userEmail,
         password: ''
     })
+
+    const [isSameUserData, setIsSameUserData] = useState(true);
+
+    useEffect(() => {
+      setIsSameUserData(value.name === userName && value.email === userEmail);
+    }, [value.email,value.name,userName,userEmail]);
 
     const updateUser = (evt) => {
         evt.preventDefault();
@@ -77,6 +81,9 @@ function ProfileForm() {
         icon="EditIcon"
         extraClass="mt-6"
       />
+
+{!isSameUserData && (
+    <>
       <Button
         type="primary"
         size="medium"
@@ -89,6 +96,8 @@ function ProfileForm() {
       <Button type="primary" size="medium" htmlType="submit" extraClass="mt-6">
         Сохранить
       </Button>
+      </>
+)}
     </form>
   );
 }

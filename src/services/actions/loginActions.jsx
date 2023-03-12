@@ -19,7 +19,7 @@ export function loginActions( email, password){
                 const { success, refreshToken, accessToken } = res
                 if (success) {
                     setCookie('access', accessToken.split('Bearer ')[1]);
-                    localStorage.setItem('refresh', refreshToken);
+                    setCookie('refreshToken', refreshToken);
                 }
                 dispatch({
                     type: LOGIN_SUCCESS,
@@ -42,7 +42,7 @@ export function logoutActions( ){
         .then((res) => {
             if (res) {
                 deleteCookie('access');
-                localStorage.removeItem('refresh');
+                deleteCookie('refreshToken');
             }
                 dispatch({
                     type: LOGOUT_SUCCESS,
