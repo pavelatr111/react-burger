@@ -56,7 +56,7 @@ export const setRefreshToken = () => {
         .then((res) => {
           setCookie("access", res.accessToken.split('Bearer ')[1]);
           setCookie("refreshToken", res.refreshToken);
-          dispatch(getUserActions());
+        //   dispatch(getUserActions());
         })
     }
   }

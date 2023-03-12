@@ -8,16 +8,23 @@ function ProfileForm() {
 
     const dispatch = useDispatch();
 
-
     const userName = useSelector(state => state.login.user.name);
     const userEmail = useSelector(state => state.login.user.email);
-    console.log(userName, userEmail);
+    
     
     const [value, setValue] = useState({
-        name: userName,
-        email: userEmail,
+        name: '',
+        email: '',
         password: ''
     })
+    
+    useEffect(() => {
+        setValue({
+            name: userName,
+            email: userEmail,
+            password: ''
+        })
+    }, [userName, userEmail])
 
     const [isSameUserData, setIsSameUserData] = useState(true);
 
