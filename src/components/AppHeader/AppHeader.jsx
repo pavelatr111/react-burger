@@ -6,36 +6,50 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyle from "./AppHeader.module.css";
 import React from "react";
-import Link from "./Link";
+import HeaderLink from "./Link";
+import { Link, useMatch } from "react-router-dom";
 
 function AppHeader() {
+  const matchHome = useMatch("/");
+  const matchList = useMatch("/feed");
+  const matchProfile = useMatch("/profile");
+
   return (
     <header className={headerStyle.header}>
       <nav className={headerStyle.nav}>
         <div className={headerStyle.links}>
-          <Link
-            lclass={`${headerStyle.link} text text_type_main-default text_color_inactive mt-4 mb-4 pt-4 pb-4 pr-5 pl-5`}
-            paragraphClass={"ml-2 text_color_primary"}
-            icon={<BurgerIcon type="primary" />}
+          <HeaderLink
+            paragraphClass={"ml-2"}
+            icon={
+              <BurgerIcon type={Boolean(matchHome) ? "primary" : "secondary"} />
+            }
             text={"Конструктор"}
-            href={"#"}
+            href={"/"}
           />
-          <Link
-            lclass={`${headerStyle.link} text text_type_main-default text_color_inactive mt-4 mb-4 pt-4 pb-4 pr-5 pl-5`}
-            paragraphClass={"text text_type_main-default text_color_inactive"}
-            icon={<ListIcon type="secondary" />}
+          <HeaderLink
+            paragraphClass={"ml-2"}
+            icon={
+              <ListIcon type={Boolean(matchList) ? "primary" : "secondary"} />
+            }
             text={"Лента заказов"}
-            href={"#"}
+            href={"/feed"}
           />
           <link />
         </div>
-        <div className={headerStyle.logo}>{<Logo />}</div>
-        <Link
-          lclass={`${headerStyle.link} text text_type_main-default text_color_inactive mt-4 mb-4 pt-4 pb-4 pr-5 pl-5`}
-          paragraphClass={"text text_type_main-default text_color_inactive"}
-          icon={<ProfileIcon type="secondary" />}
+        <div className={headerStyle.logo}>
+          <Link to="/">
+            <Logo />
+          </Link>
+        </div>
+        <HeaderLink
+          paragraphClass={"ml-2"}
+          icon={
+            <ProfileIcon
+              type={Boolean(matchProfile) ? "primary" : "secondary"}
+            />
+          }
           text={"Личный кабинет"}
-          href={"#"}
+          href={"/profile"}
         />
       </nav>
     </header>

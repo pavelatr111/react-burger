@@ -1,19 +1,38 @@
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentIngredient } from "../../../services/actions/ingredientDitails";
+import { ingredientPropType } from "../../../utils/propTypes";
+import BurgerItem from "../BurgerItem/BurgerItem";
 
-function BurgerItems({
-  sort,
-  style,
-  name,
-  setIngredientPopupOpen,
-  setCurrentIngredient,
-}) {
+function BurgerItems({ sort, style, name }) {
+  const { buns: currentBun, ingredients: currentIngredients } = useSelector(
+    (state) => state.burger
+  );
+
+  const dispatch = useDispatch();
+
   const handleIngClick = (evt) => {
     const id = evt.currentTarget.id;
     const current = sort.find((element) => element._id === id);
-    setCurrentIngredient(current);
-
+    dispatch(getCurrentIngredient(current));
   };
+
+  const ingredientCount = useMemo(() => {
+    const result = {};
+
+    if (currentBun) {
+      result[currentBun._id] = 2;
+    }
+
+    currentIngredients.forEach((ingredient) => {
+      result[ingredient._id] = !result[ingredient._id]
+        ? 1
+        : result[ingredient._id] + 1;
+    });
+
+    return result;
+  }, [currentBun, currentIngredients]);
 
   return (
     <div>
@@ -23,24 +42,13 @@ function BurgerItems({
       <ul className={`${style.list} 'pl-4 pr-4 '`}>
         {sort.map((item) => {
           return (
-            <li key={item._id} id={item._id} className={style.listItem} onClick={handleIngClick}>
-              <img
-                src={item.image}
-                alt={item.name}
-                className={"mr-4 ml-4"}
-              ></img>
-              <p
-                className={`"mt-1 mb-1 text text_type_digits-default text_color_primary " ${style.paragraph}`}
-              >
-                <span className={"pr-2"}>{item.price}</span>
-                <CurrencyIcon type="primary" />
-              </p>
-              <p
-                className={`"text text_type_main-default text_color_primary " ${style.paragraph}`}
-              >
-                {item.name}
-              </p>
-            </li>
+            <BurgerItem
+              key={item._id}
+              item={item}
+              handleIngClick={handleIngClick}
+              style={style}
+              count={ingredientCount[item._id]}
+            />
           );
         })}
       </ul>
@@ -49,22 +57,7 @@ function BurgerItems({
 }
 
 BurgerItems.propTypes = {
-  sort: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ).isRequired,
+  sort: PropTypes.arrayOf(ingredientPropType.isRequired),
   style: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
 };

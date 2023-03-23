@@ -1,44 +1,53 @@
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import Style from "./App.module.css";
-import React, { useEffect, useState } from "react";
-import { getIngredients } from "../../utils/MainAPI";
-import { burgerContext } from "../../contexts/burgerContext";
-import { OrderContext } from "../../contexts/orderContext";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getBurgerIngredients } from "../../services/actions/burgerIngredients";
+import Main from "../../pages/Main";
+import Login from "../../pages/Login";
+import Registration from "../../pages/Registration";
+import ForgotPassword from "../../pages/ForgotPassword";
+import ResetPassword from "../../pages/ResetPassword";
+import ProfilePage from "../../pages/Profile";
+import ProtectedRouteElement from "../ProtectedRouteElement.jsx"
+import { IngredientPage } from "../../pages/IngrdientPage";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
+import { getUserActions } from "../../services/actions/user";
 
 function App() {
-  const [dataBurger, setDataBurger] = useState([]);
-  const [currentIngredient, setCurrentIngredient] = useState(null);
-  const [orderDetails, setOrderDetails] = React.useState(null);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const background = location.state && location.state.background;
 
   useEffect(() => {
-    getIngredients()
-      .then((data) => {
-        setDataBurger(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    dispatch(getBurgerIngredients())
+    dispatch(getUserActions());
+  }, [dispatch]);
 
   return (
     <div>
       <AppHeader />
-      <main className={Style.main}>
-        <burgerContext.Provider value={{ dataBurger, setDataBurger }}>
-          <BurgerIngredients
-            // dataBurger={dataBurger}
-            setCurrentIngredient={setCurrentIngredient}
-            currentIngredient={currentIngredient}
-          />
-          <OrderContext.Provider value={{ orderDetails, setOrderDetails }}>
-            <BurgerConstructor
-            // dataBurger={dataBurger}
-            />
-          </OrderContext.Provider>
-        </burgerContext.Provider>
-      </main>
+        <Routes location={background || location}>
+          <Route path={"/"} element={<Main />} />
+          <Route path={"/register"} element={<Registration />} />
+          <Route path={"/login"} element={<Login />} />
+          <Route path={"/forgot-password"} element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/profile"  element={<ProtectedRouteElement element={<ProfilePage/>} to={"/login"}/>}/>
+          <Route path="/ingredients/:id" element={<IngredientPage />} />
+        </Routes>
+      {background && 
+        <Routes>
+        <Route path="/ingredients/:id" element={
+          <Modal  title={"Детали ингредиента"} closePopup={() => navigate(-1)}>
+             <IngredientDetails />
+          </Modal>
+        } />
+      </Routes>
+      }
     </div>
   );
 }
