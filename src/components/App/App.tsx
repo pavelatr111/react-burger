@@ -1,3 +1,4 @@
+
 import AppHeader from "../AppHeader/AppHeader";
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
@@ -9,7 +10,7 @@ import Registration from "../../pages/Registration";
 import ForgotPassword from "../../pages/ForgotPassword";
 import ResetPassword from "../../pages/ResetPassword";
 import ProfilePage from "../../pages/Profile";
-import ProtectedRouteElement from "../ProtectedRouteElement.jsx"
+import ProtectedRouteElement from "../ProtectedRouteElement"
 import { IngredientPage } from "../../pages/IngrdientPage";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";

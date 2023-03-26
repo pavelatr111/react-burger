@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentIngredient } from "../../../services/actions/ingredientDitails";
 import { ingredientPropType } from "../../../utils/propTypes";
-import BurgerItem from "../BurgerItem/BurgerItem";
+import BurgerItem from "../BurgerItem/BurgerItem.tsx";
 
 function BurgerItems({ sort, style, name }) {
   const { buns: currentBun, ingredients: currentIngredients } = useSelector(

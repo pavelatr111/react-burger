@@ -2,7 +2,7 @@ import styles from './App.module.css';
 
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
-import IngredientDetails from '../components/Modal/IngredientDetails/IngredientDetails';
+import IngredientDetails from '../components/Modal/IngredientDetails/IngredientDetails.tsx';
 
 export const IngredientPage = () => {
   const ingredients = useSelector((state) => state.ingredients.dataBurger);

@@ -5,9 +5,10 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyle from "./AppHeader.module.css";
-import React from "react";
+// import React from "react";
 import HeaderLink from "./Link";
 import { Link, useMatch } from "react-router-dom";
+import React from "react";
 
 function AppHeader() {
   const matchHome = useMatch("/");

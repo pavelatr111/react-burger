@@ -19,6 +19,7 @@ import { addIngredient } from "../../services/actions/burgerConstructor";
 import BurgerConstructorItem from "./BurgerItem/BurgerConstructorItem";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../utils/token";
+import React from "react";
 
 function BurgerConstructor() {
   const navigate = useNavigate();

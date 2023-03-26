@@ -1,7 +1,7 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerStyle from "./BurgerIngredients.module.css";
 import React, { useEffect, useMemo } from "react";
-import BurgerItems from "./BurgerItems/BurgerItems";
+import BurgerItems from "./BurgerItems/BurgerItems.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTabAction } from "../../services/actions/burgerIngredients";
 import { useInView } from "react-intersection-observer";

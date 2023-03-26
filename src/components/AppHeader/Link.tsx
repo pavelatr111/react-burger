@@ -1,4 +1,5 @@
-import PropTypes from "prop-types";
+
+import React from "react";
 import { NavLink } from "react-router-dom";
 import headerStyle from "./AppHeader.module.css";
 
@@ -22,11 +23,11 @@ function HeaderLink({ href, icon, paragraphClass, text }) {
   );
 }
 
-HeaderLink.propTypes = {
-  href: PropTypes.string.isRequired,
-  icon: PropTypes.node.isRequired,
-  paragraphClass: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-};
+// HeaderLink.propTypes = {
+//   href: PropTypes.string.isRequired,
+//   icon: PropTypes.node.isRequired,
+//   paragraphClass: PropTypes.string.isRequired,
+//   text: PropTypes.string.isRequired,
+// };
 
 export default HeaderLink;
