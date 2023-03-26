@@ -24,8 +24,8 @@ function App() {
   const background = location.state && location.state.background;
 
   useEffect(() => {
-    dispatch(getBurgerIngredients())
-    dispatch(getUserActions());
+    dispatch<any>(getBurgerIngredients())
+    dispatch<any>(getUserActions());
   }, [dispatch]);
 
   return (
