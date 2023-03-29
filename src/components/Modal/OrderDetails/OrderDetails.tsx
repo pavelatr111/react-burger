@@ -1,11 +1,10 @@
 import style from "./OrderDetails.module.css";
 import doneImg from "../../../images/order accpeted/graphics.svg";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../hooks/hooks";
+
 
 function OrderDetails() {
-  const { order, feedRequest} = useSelector(
-    (state) => state.order
-  );
+  const { order, feedRequest } = useSelector((state) => state.order);
   return (
     <div className={style.order + " pt-15 pb-30 pr-25 pl-25"}>
       {feedRequest ? (

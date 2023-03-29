@@ -1,54 +1,54 @@
-import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  Input,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {  updateUserActions } from "../../services/actions/user";
-import styles from "./ProfileForm.module.css"
+import { useDispatch, useSelector } from "../../hooks/hooks";
+import { updateUserActions } from "../../services/actions/user";
+import styles from "./ProfileForm.module.css";
 
 function ProfileForm() {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const userName = useSelector((state) => state.login.user.name);
+  const userEmail = useSelector((state) => state.login.user.email);
 
-    const userName = useSelector(state => state.login.user.name);
-    const userEmail = useSelector(state => state.login.user.email);
-    
-    
-    const [value, setValue] = useState({
-        name: '',
-        email: '',
-        password: ''
-    })
-    
-    useEffect(() => {
-        setValue({
-            name: userName,
-            email: userEmail,
-            password: ''
-        })
-    }, [userName, userEmail])
+  const [value, setValue] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-    const [isSameUserData, setIsSameUserData] = useState(true);
+  useEffect(() => {
+    setValue({
+      name: userName,
+      email: userEmail,
+      password: "",
+    });
+  }, [userName, userEmail]);
 
-    useEffect(() => {
-      setIsSameUserData(value.name === userName && value.email === userEmail);
-    }, [value.email,value.name,userName,userEmail]);
+  const [isSameUserData, setIsSameUserData] = useState(true);
 
-    const updateUser = (evt) => {
-        evt.preventDefault();
-        dispatch(updateUserActions(value.name, value.email, value.password));
-    }
+  useEffect(() => {
+    setIsSameUserData(value.name === userName && value.email === userEmail);
+  }, [value.email, value.name, userName, userEmail]);
 
-    const cancelUpdate = () => {
-        setValue({
-            name: userName,
-            email: userEmail,
-            password: ''
-        })
-    }
+  const updateUser = (evt: { preventDefault: () => void; }) => {
+    evt.preventDefault();
+    dispatch(updateUserActions(value.name, value.email, value.password));
+  };
 
+  const cancelUpdate = () => {
+    setValue({
+      name: userName,
+      email: userEmail,
+      password: "",
+    });
+  };
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   return (
@@ -89,22 +89,27 @@ function ProfileForm() {
         extraClass="mt-6"
       />
 
-{!isSameUserData && (
-    <>
-      <Button
-        type="primary"
-        size="medium"
-        htmlType="reset"
-        extraClass="mt-6"
-        onClick={cancelUpdate}
-      >
-        Отмена
-      </Button>
-      <Button type="primary" size="medium" htmlType="submit" extraClass="mt-6">
-        Сохранить
-      </Button>
-      </>
-)}
+      {!isSameUserData && (
+        <>
+          <Button
+            type="primary"
+            size="medium"
+            htmlType="reset"
+            extraClass="mt-6"
+            onClick={cancelUpdate}
+          >
+            Отмена
+          </Button>
+          <Button
+            type="primary"
+            size="medium"
+            htmlType="submit"
+            extraClass="mt-6"
+          >
+            Сохранить
+          </Button>
+        </>
+      )}
     </form>
   );
 }

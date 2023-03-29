@@ -1,10 +1,16 @@
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  Button,
+  EmailInput,
+  Input,
+  PasswordInput,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { FormEvent, useRef, useState } from "react";
+
 import { Link, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "../hooks/hooks";
 import { registrationActions } from "../services/actions/registration";
 import { getCookie } from "../utils/token";
-import styles from "./App.module.css"
+import styles from "./App.module.css";
 
 function Registration() {
   const dispatch = useDispatch();
@@ -14,39 +20,32 @@ function Registration() {
     password: "",
   });
 
-  const success = useSelector((state) => state.registration.success)
-  const user = useSelector((state) => state.login.user)
-  const suc = getCookie('access')
+  const success = useSelector((state) => state.registration.success);
+  const user = useSelector((state) => state.login.user);
+  const suc = getCookie("access");
   console.log(success);
-  const registrationHandler = (evt) => {
+  
+  const registrationHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(registrationActions(value.email, value.name, value.password ));
+    dispatch(registrationActions(value.email, value.name, value.password));
   };
 
-
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     alert("Icon Click Callback");
   };
 
   if (user && suc) {
     return (
-            // Переадресовываем авторизованного пользователя на главную страницу
-      <Navigate
-        to="/"
-                replace
-      />
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Navigate to="/" replace />
     );
   }
 
   if (success) {
-    return (
-        <Navigate
-        to={'/login'}
-      />
-    )
-}
+    return <Navigate to={"/login"} />;
+  }
 
   return (
     <form className={styles.default} onSubmit={registrationHandler}>

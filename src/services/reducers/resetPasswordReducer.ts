@@ -7,7 +7,7 @@ const initialState = {
     feedFailed: false,
 }
 
-export function resetPasswordReducer(state = initialState, action) {
+export function resetPasswordReducer(state = initialState, action: { type: string; payload: { success: boolean } }) {
     // console.log(action.payload);
     switch (action.type) {
         case RESET_PASSWORD_REQUEST: {

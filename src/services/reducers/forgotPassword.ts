@@ -1,14 +1,19 @@
 import { FORGOT_PASSWORD_ERROR, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS } from "../actions/forgotPassword"
 
-
-const initialState = {
+type TInitialState = {
+    success: boolean,
+    message: string,
+    feedRequest: boolean,
+    feedFailed: boolean,
+  }
+const initialState: TInitialState = {
     success: false,
     message: '',
     feedRequest: false,
     feedFailed: false,
 }
 
-export function forgotPasswordReducer(state = initialState, action) {
+export function forgotPasswordReducer(state = initialState, action: { type: string; payload: any }) {
     switch (action.type) {
         case FORGOT_PASSWORD_REQUEST: {
             return {

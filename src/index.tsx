@@ -7,6 +7,11 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers/rootRaducer';
 import { BrowserRouter } from 'react-router-dom';
 
+declare global {
+    interface Window {
+      __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: (o: any) => typeof compose;
+    }
+  }
 
 const composeEnhancers =
     typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -15,10 +20,11 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
+
 
 const root = ReactDOM.createRoot(
-    document.getElementById('root')
+    document.getElementById('root')!
 );
 
 root.render(

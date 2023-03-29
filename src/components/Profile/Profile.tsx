@@ -1,27 +1,20 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink } from "react-router-dom";
-import  {logoutActions}  from "../../services/actions/loginActions.jsx";
+import { logoutActions } from "../../services/actions/loginActions";
 import styles from "./Profile.module.css";
 
 export function UserProfile() {
-    const dispatch = useDispatch()
-    const success = useSelector((state) => state.login.logout)
+  const dispatch = useDispatch();
+  const success = useSelector<any>((state) => state.login.logout);
 
+  const logoutHandler = useCallback(() => {
+    dispatch<any>(logoutActions());
+  }, [dispatch]);
 
-    const logoutHandler = useCallback(() => {
-        dispatch(logoutActions())
-    }, [dispatch])
-
-
-  if (success ) {
-    return (
-        <Navigate
-        to={'/login'}
-      />
-    )
-}
-
+  if (success) {
+    return <Navigate to={"/login"} />;
+  }
 
   return (
     <nav className={styles.menu}>

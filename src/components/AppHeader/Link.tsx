@@ -1,9 +1,17 @@
 
-import React from "react";
+import React, { FunctionComponent, ReactElement } from "react";
 import { NavLink } from "react-router-dom";
 import headerStyle from "./AppHeader.module.css";
 
-function HeaderLink({ href, icon, paragraphClass, text }) {
+interface ILinkProps {
+  href: string
+  icon: ReactElement
+  paragraphClass: string
+  text: string
+}
+
+const HeaderLink: FunctionComponent<ILinkProps> = ({ href, icon, paragraphClass, text }) => {
+  
   const linkStyle =
     "text text_type_main-default text_color_primary mt-4 mb-4 pt-4 pb-4 pr-5 pl-5 ";
   const unActiveStyle =

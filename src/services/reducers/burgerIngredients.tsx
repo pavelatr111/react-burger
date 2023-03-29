@@ -1,13 +1,26 @@
+import { AnyAction } from "redux";
 import { CURRENT__TAB, GET_INGREDIENTS_ERROR, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS } from "../actions/burgerIngredients"
+import { TIngredientType } from "../types/types";
 
-const initialState = {
+
+
+
+type TInitialState = {
+    dataBurger: Array<TIngredientType>,
+    feedRequest: Boolean,
+    feedFailed: Boolean,
+    currentTab: string | null,
+  }
+  
+
+const initialState: TInitialState = {
     feedRequest: false,
     feedFailed: false,
     dataBurger: [],
     currentTab: null
 }
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: AnyAction): TInitialState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
@@ -41,3 +54,5 @@ export const ingredientsReducer = (state = initialState, action) => {
         }
     }
 }
+
+

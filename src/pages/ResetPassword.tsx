@@ -3,7 +3,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { resetPasswordActions } from "../services/actions/resetPassword.js";
@@ -17,19 +17,19 @@ function ResetPassword() {
   });
 
   const dispatch = useDispatch();
-  const success = useSelector((state) => state.forgotPassword.success);
-  const user = useSelector((state) => state.login.user);
+  const success = useSelector<any>((state) => state.forgotPassword.success);
+  const user = useSelector<any>((state) => state.login.user);
   const suc = getCookie("access");
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     alert("Icon Click Callback");
   };
 
-  const resetHandler = (evt) => {
+  const resetHandler = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
-    dispatch(resetPasswordActions(value.password, value.token));
+    dispatch<any>(resetPasswordActions(value.password, value.token));
   };
 
   if (user && suc) {

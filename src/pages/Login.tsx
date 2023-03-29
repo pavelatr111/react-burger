@@ -13,27 +13,24 @@ import styles from "./App.module.css";
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.login.user)
-  const suc = getCookie('access')
+  const user = useSelector<any>((state) => state.login.user);
+  const suc = getCookie("access");
   console.log(user);
   const [value, setValue] = useState({
     email: "",
     password: "",
   });
 
-  const authorizationHandler = (evt) => {
+  const authorizationHandler = (evt: { preventDefault: () => void; }) => {
     evt.preventDefault();
-    dispatch(loginActions(value.email, value.password));
-    navigate('/');
+    dispatch<any>(loginActions(value.email, value.password));
+    navigate("/");
   };
 
   if (user && suc) {
     return (
-            // Переадресовываем авторизованного пользователя на главную страницу
-      <Navigate
-        to="/"
-                replace
-      />
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Navigate to="/" replace />
     );
   }
 

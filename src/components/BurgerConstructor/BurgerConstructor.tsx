@@ -7,7 +7,6 @@ import { useMemo } from "react";
 import constructorStyle from "./BurgerConstructor.module.css";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../Modal/OrderDetails/OrderDetails";
-import { useDispatch, useSelector } from "react-redux";
 
 import {
   orderPopupAction,
@@ -20,17 +19,22 @@ import BurgerConstructorItem from "./BurgerItem/BurgerConstructorItem";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../utils/token";
 import React from "react";
+import { useDispatch, useSelector } from "../../hooks/hooks";
+import { TIngredientType } from "../../services/types/types";
+
+
+
 
 function BurgerConstructor() {
   const navigate = useNavigate();
   const { buns, ingredients } = useSelector((state) => state.burger);
   const { orderPopupShow } = useSelector((state) => state.order);
-  const authorization = getCookie('access') ? true : false
+  const authorization = getCookie("access") ? true : false;
   const dispatch = useDispatch();
 
   const sum = useMemo(() => {
     return (
-      ingredients.reduce((acc, curr) => acc + curr.price, 0) +
+      ingredients.reduce((acc: any, curr: { price: number; }) => acc + curr.price, 0) +
       (buns ? buns.price * 2 : 0)
     );
   }, [buns, ingredients]);
@@ -45,15 +49,21 @@ function BurgerConstructor() {
     },
   });
 
+
   const orderRequest = () => {
-    if(!authorization){
-      navigate('/login');
-    } else {
-      const newArray = ingredients.concat(buns);
-    const ingredientId = newArray.map((element) => element._id);
-    dispatch(orderPopupAction());
-    dispatch(postOrderAction(ingredientId));
+    if (!authorization) {
+      navigate("/login");
+      return
+    } 
+
+    if(!buns) {
+      return
     }
+      const newArray = ingredients.concat(buns);
+      const ingredientId = newArray.map((element: { _id: string; }) => element._id);
+      dispatch(orderPopupAction());
+      dispatch(postOrderAction(ingredientId));
+    
   };
 
   const orderPopupClose = () => {
@@ -62,7 +72,7 @@ function BurgerConstructor() {
   };
 
   return (
-    <section className={constructorStyle.constructor}>
+    <section className={constructorStyle.constructorBurger}>
       <div
         ref={dropRef}
         className={`mb-10 mt-25`}
@@ -98,7 +108,7 @@ function BurgerConstructor() {
           </div>
         ) : (
           <ul className={"text custom-scroll " + constructorStyle.filings}>
-            {ingredients.map((item, index) => (
+            {ingredients.map((item: TIngredientType, index: number) => (
               <BurgerConstructorItem
                 index={index}
                 item={item}
@@ -127,7 +137,7 @@ function BurgerConstructor() {
       <div className={`mr-4 ${constructorStyle.price}`}>
         <span className={"text text_type_digits-medium mr-10 "}>
           {sum}
-          {<CurrencyIcon />}
+          {<CurrencyIcon type={"primary"} />}
         </span>
         <Button
           size="large"

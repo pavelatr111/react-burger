@@ -9,18 +9,18 @@ export const RESET_ORDER = 'RESET_ORDER';
 
 export function postOrderAction(data) {
   return function (dispatch) {
-    dispatch({
+    dispatch  ({
       type: POST__ORDER_REQUEST
     })
     orderPost(data)
       .then((res) => {
-        dispatch({
+        dispatch ({
           type: POST__ORDER_SUCCESS,
           payload: res.order
         });
       })
       .catch((e) => {
-        dispatch({
+        dispatch ({
           type: POST__ORDER_ERROR
         })
       })

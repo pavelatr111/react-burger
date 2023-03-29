@@ -1,31 +1,49 @@
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
-import { removeIngredient, updateConstructor } from "../../../services/actions/burgerConstructor";
-import { ingredientPropType } from "../../../utils/propTypes";
-import PropTypes from 'prop-types';
+import {
+  ConstructorElement,
+  DragIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import {  FunctionComponent, useRef } from "react";
+import { DropTargetMonitor, useDrag, useDrop } from "react-dnd";
 
-function BurgerConstructorItem({ index, item, constructorStyle }) {
+import {
+  removeIngredient,
+  updateConstructor,
+} from "../../../services/actions/burgerConstructor";
+import { useDispatch } from "../../../hooks/hooks";
+import {  TIngredientType } from "../../../services/types/types";
+
+
+
+interface IBurgerConstructorProps {
+  index: number
+  item: TIngredientType
+  constructorStyle: CSSModule
+}
+
+const BurgerConstructorItem: FunctionComponent<IBurgerConstructorProps>=({ index, item, constructorStyle }) =>{
+
+  // console.log(constructorStyle);
+  
   const dispatch = useDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'constructorItem',
+    type: "constructorItem",
     item: () => {
-      return { index }
+      return { index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
-    })
+    }),
   });
 
   const [{ handlerId }, drop] = useDrop({
-    accept: 'constructorItem',
-    collect: (monitor) => ({
-      handlerId: monitor.getHandlerId()
+    accept: "constructorItem",
+    collect: (monitor: DropTargetMonitor<{index: number}>) => ({
+      handlerId: monitor.getHandlerId(),
     }),
     hover(item, monitor) {
+      
       if (!ref.current) {
         return;
       }
@@ -38,8 +56,14 @@ function BurgerConstructorItem({ index, item, constructorStyle }) {
       }
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+
+      
+      if(clientOffset === null){
+        return
+      }
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -50,31 +74,33 @@ function BurgerConstructorItem({ index, item, constructorStyle }) {
         return;
       }
 
-      dispatch(updateConstructor({ dragIndex, hoverIndex }));
+      dispatch<any>(updateConstructor({ dragIndex, hoverIndex }));
 
       item.index = hoverIndex;
-    }
+    },
   });
 
   const opacity = isDragging ? 0 : 1;
 
+  if (item.type !== "bun") drag(drop(ref));
+
   return (
-    <li className={`mb-2 ${constructorStyle.list}`} ref={drag(drop(ref))} data-handler-id={handlerId} style={{ opacity }}>
+    <li
+      className={`mb-2 ${constructorStyle.list}`}
+      ref={ref}
+      data-handler-id={handlerId}
+      style={{ opacity }}
+    >
       <DragIcon type="primary" />
       <ConstructorElement
         text={item.name}
         price={item.price}
         thumbnail={item.image}
-        handleClose={() => dispatch(removeIngredient(item.id))}
+        handleClose={() => dispatch<any>(removeIngredient(item.id))}
       />
     </li>
   );
 }
 
-BurgerConstructorItem.propTypes = {
-  item: ingredientPropType.isRequired,
-  index: PropTypes.number.isRequired,
-  constructorStyle: PropTypes.object.isRequired
-};
 
 export default BurgerConstructorItem;
