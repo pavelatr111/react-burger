@@ -5,8 +5,8 @@ import {
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { forgotPasswordActions } from "../services/actions/forgotPassword.js";
-import { getCookie } from "../utils/token.js";
+import { forgotPasswordActions } from "../services/actions/forgotPassword";
+import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
 
 function ForgotPassword() {

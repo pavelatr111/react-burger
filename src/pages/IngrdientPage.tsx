@@ -4,7 +4,6 @@ import styles from "./App.module.css";
 import { useParams } from "react-router-dom";
 import IngredientDetails from "../components/Modal/IngredientDetails/IngredientDetails";
 import { useSelector } from "../hooks/hooks";
-import { TIngredientType } from "../services/types/types";
 
 
 export const IngredientPage = () => {

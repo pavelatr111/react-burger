@@ -2,12 +2,11 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import React from "react";
+
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 import { TIngredientType } from "../../../services/types/types";
-import { ingredientPropType } from "../../../utils/propTypes";
+
 
 type TBurgerItemProps = {
   item: TIngredientType, style: CSSModule, count: number, handleIngClick: (evt: { currentTarget: { id: string; }; })=> void

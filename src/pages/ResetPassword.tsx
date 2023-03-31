@@ -7,7 +7,7 @@ import {  useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { resetPasswordActions } from "../services/actions/resetPassword.js";
-import { getCookie } from "../utils/token.js";
+import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
 
 function ResetPassword() {

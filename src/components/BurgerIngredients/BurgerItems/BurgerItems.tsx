@@ -3,7 +3,7 @@ import { FC, useMemo } from "react";
 import { useDispatch, useSelector } from "../../../hooks/hooks";
 
 import { getCurrentIngredient } from "../../../services/actions/ingredientDitails";
-import { TIngredientReducerType, TIngredientType } from "../../../services/types/types";
+import { TIngredientType } from "../../../services/types/types";
 
 import BurgerItem from "../BurgerItem/BurgerItem";
 

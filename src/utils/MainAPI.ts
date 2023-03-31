@@ -1,23 +1,27 @@
-import { MainBurgerApi } from "../constants/constants.js";
-import { getCookie, setCookie } from "./token.js";
+import { MainBurgerApi } from "../constants/constants";
+import { IGetBurgerIngredients, IOrderPost, IPasswordResponse, IPersonUser, IResponse, IResponseBody, IToken, ITokenResponse } from "../services/types/types-api";
+import { getCookie, setCookie } from "./token";
 
 
-const responce = (res) => {
-  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res}`);
+function responce<T> (res: IResponse<T>): Promise<T> | Promise<never>  {
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res}`)
 }
-
-export const fetchWithRefresh = async (url, options) => {
+//если тут убрать any то ругается на options.headers ниже. подскажите как решить проблему
+export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T> => {
   try {
     const res = await fetch(url, options);
     return await responce(res);
-  } catch (err) {
+   //как сдесь можно сделать по другому??? 
+  } catch (err: any) {
     if (err.message === 'jwt expired') {
-      const refreshData = await refreshToken(getCookie('refreshToken'));
+
+      const refreshData = await refreshToken();
       if (!refreshData.success) {
         Promise.reject(refreshData);
       }
       setCookie('refreshToken', refreshData.refreshToken);
-      setCookie('access', refreshData.accessToken.split('Bearer ')[1]);
+      setCookie('access', refreshData.accessToken.split('Bearer ')[1])
+      
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options);
       return await responce(res);
@@ -28,12 +32,12 @@ export const fetchWithRefresh = async (url, options) => {
 };
 
 
-function getIngredients() {
+function getIngredients(): Promise<IGetBurgerIngredients> {
   return fetch(`${MainBurgerApi}ingredients`)
     .then(responce)
 }
 
-function orderPost(data) {
+function orderPost(data: Array<string>): Promise<IOrderPost> {
   return fetchWithRefresh(`${MainBurgerApi}orders`, {
     method: "POST",
     headers: {
@@ -46,7 +50,7 @@ function orderPost(data) {
   })
 }
 
-function forgotPassword(email) {
+function forgotPassword(email: string): Promise<IPasswordResponse> {
   return fetch(`${MainBurgerApi}password-reset`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -57,7 +61,7 @@ function forgotPassword(email) {
     .then(responce)
 }
 
-function resetPassword(password, token) {
+function resetPassword(password: string, token: string): Promise<IPasswordResponse> {
   return fetch(`${MainBurgerApi}password-reset/reset`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -69,7 +73,7 @@ function resetPassword(password, token) {
     .then(responce)
 }
 
-function registration(email, password, name) {
+function registration(email: string, password: string, name: string): Promise<IToken> {
   return fetch(`${MainBurgerApi}auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -82,7 +86,7 @@ function registration(email, password, name) {
     .then(responce)
 }
 
-function login(email, password, name) {
+function login(email: string, password: string, name: string): Promise<IToken> {
   return fetch(`${MainBurgerApi}auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -95,7 +99,7 @@ function login(email, password, name) {
     .then(responce)
 }
 
-function logout() {
+function logout(): Promise<IResponseBody> {
   return fetch(`${MainBurgerApi}auth/logout`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -106,7 +110,7 @@ function logout() {
     .then(responce)
 }
 
-function refreshToken(refresh) {
+function refreshToken(): Promise<ITokenResponse> {
   return fetch(`${MainBurgerApi}auth/token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -117,7 +121,7 @@ function refreshToken(refresh) {
     .then(responce)
 }
 
-function getUser() {
+function getUser(): Promise<IPersonUser> {
   return fetchWithRefresh(`${MainBurgerApi}auth/user`, {
     method: "GET",
     headers: {
@@ -127,11 +131,11 @@ function getUser() {
   })
 }
 
-function updateUser(name, email, password) {
+function updateUser(name: string, email: string, password: string): Promise<IPersonUser> {
   return fetchWithRefresh(`${MainBurgerApi}auth/user`, {
     method: "PATCH",
     headers: {
-      'authorization': 'Bearer ' + getCookie('access'),
+      authorization: 'Bearer ' + getCookie('access'),
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
