@@ -40,7 +40,7 @@ function App() {
         <Route
           path="/profile"
           element={
-            <ProtectedRouteElement element={<ProfilePage />} to={"/login"} />
+            <ProtectedRouteElement element={<ProfilePage />}/>
           }
         />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
