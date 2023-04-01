@@ -2,9 +2,9 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "../../hooks/hooks";
-import { updateUserActions } from "../../services/actions/user";
+import { getUserActions, updateUserActions } from "../../services/actions/user";
 import styles from "./ProfileForm.module.css";
 
 function ProfileForm() {
@@ -27,13 +27,17 @@ function ProfileForm() {
     });
   }, [userName, userEmail]);
 
+  useEffect(() => {
+    dispatch(getUserActions());
+  }, [dispatch])
+
   const [isSameUserData, setIsSameUserData] = useState(true);
 
   useEffect(() => {
     setIsSameUserData(value.name === userName && value.email === userEmail);
   }, [value.email, value.name, userName, userEmail]);
 
-  const updateUser = (evt: { preventDefault: () => void; }) => {
+  const updateUser = (evt:FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(updateUserActions(value.name, value.email, value.password));
   };

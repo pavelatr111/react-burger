@@ -3,9 +3,11 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { FormEvent } from "react";
+
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "../hooks/hooks";
+import { useForm } from "../hooks/useForm";
 import { loginActions } from "../services/actions/loginActions";
 import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
@@ -13,18 +15,20 @@ import styles from "./App.module.css";
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector<any>((state) => state.login.user);
+  const user = useSelector((state) => state.login.user);
   const suc = getCookie("access");
-  console.log(user);
-  const [value, setValue] = useState({
+  const { values, handleChange } = useForm({
     email: "",
     password: "",
   });
+  // const [value, setValue] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const authorizationHandler = (evt: { preventDefault: () => void; }) => {
+  const authorizationHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch<any>(loginActions(value.email, value.password));
-    navigate("/");
+    dispatch(loginActions(values.email, values.password));
   };
 
   if (user && suc) {
@@ -38,14 +42,14 @@ function Login() {
     <form className={styles.default} onSubmit={authorizationHandler}>
       <h2 className="text text_type_main-medium">Вход</h2>
       <EmailInput
-        onChange={(evt) => setValue({ ...value, email: evt.target.value })}
-        value={value.email}
+        onChange={handleChange}
+        value={values.email}
         name={"email"}
         extraClass="mt-6"
       />
       <PasswordInput
-        onChange={(evt) => setValue({ ...value, password: evt.target.value })}
-        value={value.password}
+        onChange={handleChange}
+        value={values.password}
         name={"password"}
         icon="ShowIcon"
         extraClass="mt-6"

@@ -7,11 +7,6 @@ import ProfileForm from "../components/ProfileForm/ProfileForm";
 import styles from "./App.module.css";
 
 function ProfilePage() {
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //     dispatch<any>(getUserActions());
-  //   }, [dispatch]);
 
   return (
     <section className={styles.profile}>

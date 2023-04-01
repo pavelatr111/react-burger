@@ -25,22 +25,25 @@ function App() {
 
   useEffect(() => {
     dispatch(getBurgerIngredients());
-    dispatch(getUserActions());
+    // dispatch(getUserActions());
   }, [dispatch]);
 
   return (
     <div>
       <AppHeader />
       <Routes location={background || location}>
-        <Route path={"/"} element={<Main />} />
-        <Route path={"/register"} element={<Registration />} />
-        <Route path={"/login"} element={<Login />} />
-        <Route path={"/forgot-password"} element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        
+        <Route path={"/"} element={<Main />}/>
+        <Route path={"/register"} element={<ProtectedRouteElement  anonymous={true}><Registration /></ProtectedRouteElement>} />
+        <Route path={"/login"} element={<ProtectedRouteElement  anonymous={true}><Login /></ProtectedRouteElement>} />
+        <Route path={"/forgot-password"} element={<ProtectedRouteElement  anonymous={true}><ForgotPassword /></ProtectedRouteElement>} />
+        <Route path="/reset-password" element={<ProtectedRouteElement  anonymous={true}><ResetPassword /></ProtectedRouteElement>} />
         <Route
           path="/profile"
           element={
-            <ProtectedRouteElement element={<ProfilePage />}/>
+            <ProtectedRouteElement anonymous={false}>
+              <ProfilePage />
+            </ProtectedRouteElement>
           }
         />
         <Route path="/ingredients/:id" element={<IngredientPage />} />

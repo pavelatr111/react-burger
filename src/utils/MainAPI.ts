@@ -1,17 +1,25 @@
 import { MainBurgerApi } from "../constants/constants";
-import { IGetBurgerIngredients, IOrderPost, IPasswordResponse, IPersonUser, IResponse, IResponseBody, IToken, ITokenResponse } from "../services/types/types-api";
+import { IGetBurgerIngredients, IOrderPost, IPasswordResponse, IPersonUser, IResponse, IResponseBody, IToken, ITokenResponse } from "../services/types/types-api.js";
 import { getCookie, setCookie } from "./token";
 
 
 function responce<T> (res: IResponse<T>): Promise<T> | Promise<never>  {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res}`)
 }
-//если тут убрать any то ругается на options.headers ниже. подскажите как решить проблему
-export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T> => {
+type TOptions = RequestInit & {
+  headers: {
+    authorization: string;
+  };
+}
+// подскажи пожалуйста где искать ошибку. у меня не происходит авто рефреш токена по истечениию его срока  тоолько после перезагрузки страницы
+//!!!!!!!!))))))
+
+
+export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promise<T> => {
   try {
     const res = await fetch(url, options);
     return await responce(res);
-   //как сдесь можно сделать по другому??? 
+
   } catch (err: any) {
     if (err.message === 'jwt expired') {
 
@@ -22,6 +30,7 @@ export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T>
       setCookie('refreshToken', refreshData.refreshToken);
       setCookie('access', refreshData.accessToken.split('Bearer ')[1])
       
+
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options);
       return await responce(res);

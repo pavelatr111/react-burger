@@ -14,7 +14,7 @@ type IModalProps = {
 const Modal: FC<IModalProps> = ({ children, title, closePopup}) =>{
 
   useEffect(() => {
-    const handleEscClose = (evt: { key: string; }) => {
+    const handleEscClose = (evt: KeyboardEvent) => {
       if (evt.key === 'Escape') {
         closePopup()
       }

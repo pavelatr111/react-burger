@@ -1,16 +1,19 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect } from "react";
 import { Navigate, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "../../hooks/hooks";
 import { logoutActions } from "../../services/actions/loginActions";
+import { getUserActions } from "../../services/actions/user";
 import styles from "./Profile.module.css";
 
 export function UserProfile() {
   const dispatch = useDispatch();
-  const success = useSelector<any>((state) => state.login.logout);
+  const success = useSelector((state) => state.login.logout);
 
   const logoutHandler = useCallback(() => {
-    dispatch<any>(logoutActions());
+    dispatch(logoutActions());
   }, [dispatch]);
+
+
 
   if (success) {
     return <Navigate to={"/login"} />;

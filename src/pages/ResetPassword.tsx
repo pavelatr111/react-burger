@@ -3,7 +3,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {  useRef, useState } from "react";
+import {  FormEvent, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { resetPasswordActions } from "../services/actions/resetPassword.js";
@@ -27,7 +27,7 @@ function ResetPassword() {
     alert("Icon Click Callback");
   };
 
-  const resetHandler = (evt: { preventDefault: () => void; }) => {
+  const resetHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch<any>(resetPasswordActions(value.password, value.token));
   };

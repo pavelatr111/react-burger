@@ -4,17 +4,24 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef } from "react";
 
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "../hooks/hooks";
+import { useForm } from "../hooks/useForm";
 import { registrationActions } from "../services/actions/registration";
 import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
 
 function Registration() {
   const dispatch = useDispatch();
-  const [value, setValue] = useState({
+  // const [value, setValue] = useState({
+  //   name: "",
+  //   email: "",
+  //   password: "",
+  // });
+
+  const { values, handleChange } = useForm({
     name: "",
     email: "",
     password: "",
@@ -27,7 +34,7 @@ function Registration() {
   
   const registrationHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(registrationActions(value.email, value.name, value.password));
+    dispatch(registrationActions(values.email, values.name, values.password));
   };
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,8 +60,8 @@ function Registration() {
       <Input
         type={"text"}
         placeholder={"Имя"}
-        onChange={(evt) => setValue({ ...value, name: evt.target.value })}
-        value={value.name}
+        onChange={handleChange}
+        value={values.name}
         name={"name"}
         error={false}
         ref={inputRef}
@@ -64,14 +71,14 @@ function Registration() {
         extraClass="mt-6"
       />
       <EmailInput
-        onChange={(evt) => setValue({ ...value, email: evt.target.value })}
-        value={value.email}
+        onChange={handleChange}
+        value={values.email}
         name={"email"}
         extraClass="mt-6"
       />
       <PasswordInput
-        onChange={(evt) => setValue({ ...value, password: evt.target.value })}
-        value={value.password}
+        onChange={handleChange}
+        value={values.password}
         name={"password"}
         icon="ShowIcon"
         extraClass="mt-6"

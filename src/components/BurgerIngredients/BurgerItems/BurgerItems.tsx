@@ -1,5 +1,5 @@
 
-import { FC, useMemo } from "react";
+import { FC, MouseEvent, useMemo } from "react";
 import { useDispatch, useSelector } from "../../../hooks/hooks";
 
 import { getCurrentIngredient } from "../../../services/actions/ingredientDitails";
@@ -17,7 +17,7 @@ const BurgerItems: FC<TBurgerItemsProps> = ({ sort, style, name }) =>{
 
   const dispatch = useDispatch();
 
-  const handleIngClick = (evt: { currentTarget: { id: string; }; }) => {
+  const handleIngClick = (evt: MouseEvent<HTMLLIElement>) => {
     const id = evt.currentTarget.id;
     const current = sort.find((element: { _id: string; }) => element._id === id);
     dispatch(getCurrentIngredient(current));

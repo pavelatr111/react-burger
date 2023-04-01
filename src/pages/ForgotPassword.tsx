@@ -2,9 +2,9 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { FormEvent, useCallback, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "../hooks/hooks";
 import { forgotPasswordActions } from "../services/actions/forgotPassword";
 import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
@@ -14,12 +14,12 @@ function ForgotPassword() {
     email: "",
   });
   const dispatch = useDispatch();
-  const success = useSelector<any>((state) => state.forgotPassword.success);
-  const user = useSelector<any>((state) => state.login.user);
+  const success = useSelector((state) => state.forgotPassword.success);
+  const user = useSelector((state) => state.login.user);
   const suc = getCookie("access");
 
   const sendEmail = useCallback(
-    (evt: { preventDefault: () => void; }) => {
+    (evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
       dispatch<any>(forgotPasswordActions(value.email));
     },
