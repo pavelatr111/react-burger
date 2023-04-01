@@ -2,15 +2,20 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormEvent, useCallback, useState } from "react";
+import { FormEvent, useCallback } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "../hooks/hooks";
+import { useForm } from "../hooks/useForm";
 import { forgotPasswordActions } from "../services/actions/forgotPassword";
 import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
 
 function ForgotPassword() {
-  const [value, setValue] = useState({
+  // const [value, setValue] = useState({
+  //   email: "",
+  // });
+
+  const { values, handleChange } = useForm({
     email: "",
   });
   const dispatch = useDispatch();
@@ -21,7 +26,7 @@ function ForgotPassword() {
   const sendEmail = useCallback(
     (evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
-      dispatch<any>(forgotPasswordActions(value.email));
+      dispatch(forgotPasswordActions(values.email));
     },
     [dispatch]
   );
@@ -41,8 +46,8 @@ function ForgotPassword() {
     <form className={styles.default} onSubmit={sendEmail}>
       <h2 className="text text_type_main-medium">Восстановление пароля</h2>
       <EmailInput
-        onChange={(evt) => setValue({ ...value, email: evt.target.value })}
-        value={value.email}
+        onChange={handleChange}
+        value={values.email}
         name={"email"}
         extraClass="mt-6"
         placeholder="Укажите e-mail"

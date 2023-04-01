@@ -6,12 +6,18 @@ import {
 import {  FormEvent, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+import { useForm } from "../hooks/useForm.js";
 import { resetPasswordActions } from "../services/actions/resetPassword.js";
 import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
 
 function ResetPassword() {
-  const [value, setValue] = useState({
+//   const [value, setValue] = useState({
+//     password: "",
+//     token: "",
+//   });
+
+  const { values, handleChange } = useForm({
     password: "",
     token: "",
   });
@@ -29,7 +35,7 @@ function ResetPassword() {
 
   const resetHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch<any>(resetPasswordActions(value.password, value.token));
+    dispatch<any>(resetPasswordActions(values.password, values.token));
   };
 
   if (user && suc) {
@@ -48,8 +54,8 @@ function ResetPassword() {
       <h2 className="text text_type_main-medium">Восстановление пароля</h2>
       <PasswordInput
         placeholder="Введите новый пароль"
-        onChange={(evt) => setValue({ ...value, password: evt.target.value })}
-        value={value.password}
+        onChange={handleChange}
+        value={values.password}
         name={"password"}
         icon="ShowIcon"
         extraClass="mt-6"
@@ -57,8 +63,8 @@ function ResetPassword() {
       <Input
         type={"text"}
         placeholder={"Введите код из письма"}
-        onChange={(evt) => setValue({ ...value, token: evt.target.value })}
-        value={value.token}
+        onChange={handleChange}
+        value={values.token}
         name={"name"}
         error={false}
         ref={inputRef}

@@ -30,7 +30,7 @@ function Registration() {
   const success = useSelector((state) => state.registration.success);
   const user = useSelector((state) => state.login.user);
   const suc = getCookie("access");
-  console.log(success);
+
   
   const registrationHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
