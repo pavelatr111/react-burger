@@ -1,0 +1,1 @@
+export const MainBurgerApi: string  = 'https://norma.nomoreparties.space/api/'
