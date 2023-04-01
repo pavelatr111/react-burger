@@ -6,7 +6,7 @@ import {
 import {  FormEvent, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { useForm } from "../hooks/useForm.js";
+import { useForm } from "../hooks/useForm";
 import { resetPasswordActions } from "../services/actions/resetPassword.js";
 import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
