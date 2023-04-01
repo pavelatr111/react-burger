@@ -15,6 +15,7 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
 import { getUserActions } from "../../services/actions/user";
 import { useDispatch } from "../../hooks/hooks";
+import { NotFoundPage } from "../../pages/404";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getBurgerIngredients());
-    // dispatch(getUserActions());
+    dispatch(getUserActions());
   }, [dispatch]);
 
   return (
@@ -47,6 +48,7 @@ function App() {
           }
         />
         <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Route path="*" element={<NotFoundPage/>} />
       </Routes>
       {background && (
         <Routes>

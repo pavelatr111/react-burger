@@ -14,7 +14,6 @@ import styles from "./App.module.css";
 
 function Login() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.login.user);
   const suc = getCookie("access");
   const { values, handleChange } = useForm({
@@ -31,12 +30,12 @@ function Login() {
     dispatch(loginActions(values.email, values.password));
   };
 
-  if (user && suc) {
-    return (
-      // Переадресовываем авторизованного пользователя на главную страницу
-      <Navigate to="/" replace />
-    );
-  }
+  // if (user && suc) {
+  //   return (
+  //     // Переадресовываем авторизованного пользователя на главную страницу
+  //     <Navigate to="/" replace />
+  //   );
+  // }
 
   return (
     <form className={styles.default} onSubmit={authorizationHandler}>
@@ -61,7 +60,7 @@ function Login() {
         <p className="text text_type_main-default text_color_inactive">
           Вы — новый пользователь?
         </p>
-        <Link to="/register" className="text text_type_main-default">
+        <Link to="/register" className={`${styles.link} text text_type_main-default`}>
           Зарегистрироваться
         </Link>
       </div>
@@ -69,7 +68,7 @@ function Login() {
         <p className="text text_type_main-default text_color_inactive">
           Забыли пароль?
         </p>
-        <Link to="/forgot-password" className="text text_type_main-default">
+        <Link to="/forgot-password" className={`${styles.link} text text_type_main-default`}>
           Восстановить пароль
         </Link>
       </div>

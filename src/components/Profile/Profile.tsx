@@ -13,11 +13,13 @@ export function UserProfile() {
     dispatch(logoutActions());
   }, [dispatch]);
 
+    useEffect(() => {
+    dispatch(getUserActions());
+  }, [dispatch])
 
-
-  if (success) {
-    return <Navigate to={"/login"} />;
-  }
+  // if (success) {
+  //   return <Navigate to={"/login"} />;
+  // }
 
   return (
     <nav className={styles.menu}>

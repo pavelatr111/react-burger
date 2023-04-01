@@ -27,9 +27,9 @@ function ProfileForm() {
     });
   }, [userName, userEmail]);
 
-  useEffect(() => {
-    dispatch(getUserActions());
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getUserActions());
+  // }, [dispatch])
 
   const [isSameUserData, setIsSameUserData] = useState(true);
 

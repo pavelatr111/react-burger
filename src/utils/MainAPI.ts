@@ -11,6 +11,10 @@ type TOptions = RequestInit & {
     authorization: string;
   };
 }
+
+function request<T>(url: string, options: RequestInit): Promise<T> {
+  return fetch(url, options).then(responce)
+};
 // подскажи пожалуйста где искать ошибку. у меня не происходит авто рефреш токена по истечениию его срока  тоолько после перезагрузки страницы
 //!!!!!!!!))))))
 
@@ -29,16 +33,17 @@ export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promi
       }
       setCookie('refreshToken', refreshData.refreshToken);
       setCookie('access', refreshData.accessToken.split('Bearer ')[1])
-      
 
       options.headers.authorization = refreshData.accessToken;
-      const res = await fetch(url, options);
-      return await responce(res);
+      return request<T>(url, options);
+      // const res = await fetch(url, options);
+      // return await responce(res);
     } else {
       return Promise.reject(err);
     }
   }
 };
+
 
 
 function getIngredients(): Promise<IGetBurgerIngredients> {
@@ -130,15 +135,24 @@ function refreshToken(): Promise<ITokenResponse> {
     .then(responce)
 }
 
+
 function getUser(): Promise<IPersonUser> {
-  return fetchWithRefresh(`${MainBurgerApi}auth/user`, {
+  return fetchWithRefresh<IPersonUser>(`${MainBurgerApi}auth/user`, {
     method: "GET",
     headers: {
       authorization: 'Bearer ' + getCookie('access'),
       'Content-Type': 'application/json'
     }
   })
+  .then(data => {
+    if (data?.success) {
+      return data;
+    }
+    return Promise.reject(data);
+  })
 }
+
+
 
 function updateUser(name: string, email: string, password: string): Promise<IPersonUser> {
   return fetchWithRefresh(`${MainBurgerApi}auth/user`, {
