@@ -7,7 +7,7 @@ import styles from "./Profile.module.css";
 
 export function UserProfile() {
   const dispatch = useDispatch();
-  const success = useSelector((state) => state.login.logout);
+  // const success = useSelector((state) => state.login.logout);
 
   const logoutHandler = useCallback(() => {
     dispatch(logoutActions());

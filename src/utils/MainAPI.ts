@@ -15,8 +15,6 @@ type TOptions = RequestInit & {
 function request<T>(url: string, options: RequestInit): Promise<T> {
   return fetch(url, options).then(responce)
 };
-// подскажи пожалуйста где искать ошибку. у меня не происходит авто рефреш токена по истечениию его срока  тоолько после перезагрузки страницы
-//!!!!!!!!))))))
 
 
 export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promise<T> => {
@@ -25,7 +23,7 @@ export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promi
     return await responce(res);
 
   } catch (err: any) {
-    if (err.message === 'jwt expired') {
+    if (err.message === 'jwt expired' || "Token is invalid") {
 
       const refreshData = await refreshToken();
       if (!refreshData.success) {
@@ -56,7 +54,7 @@ function orderPost(data: Array<string>): Promise<IOrderPost> {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization: 'Bearer ' + getCookie('access')
+      'authorization': 'Bearer ' + getCookie('access')
     },
     body: JSON.stringify({
       "ingredients": data
@@ -100,14 +98,13 @@ function registration(email: string, password: string, name: string): Promise<IT
     .then(responce)
 }
 
-function login(email: string, password: string, name: string): Promise<IToken> {
+function login(email: string, password: string): Promise<IToken> {
   return fetch(`${MainBurgerApi}auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       email,
       password,
-      name
     })
   })
     .then(responce)
@@ -140,7 +137,7 @@ function getUser(): Promise<IPersonUser> {
   return fetchWithRefresh<IPersonUser>(`${MainBurgerApi}auth/user`, {
     method: "GET",
     headers: {
-      authorization: 'Bearer ' + getCookie('access'),
+      'authorization': 'Bearer ' + getCookie('access'),
       'Content-Type': 'application/json'
     }
   })
@@ -158,7 +155,7 @@ function updateUser(name: string, email: string, password: string): Promise<IPer
   return fetchWithRefresh(`${MainBurgerApi}auth/user`, {
     method: "PATCH",
     headers: {
-      authorization: 'Bearer ' + getCookie('access'),
+      'authorization': 'Bearer ' + getCookie('access'),
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({

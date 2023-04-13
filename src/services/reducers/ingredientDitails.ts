@@ -1,16 +1,16 @@
-import { GET__CURRENT_INGREDIENT } from "../actions/ingredientDitails";
-import { TIngredientReducerType } from "../types/types";
+import { GET__CURRENT_INGREDIENT, TCurrentIngredientUnionType } from "../actions/ingredientDitails";
+import { TIngredientReducerType, TIngredientType } from "../types/types";
 
 
-type TInitialState = {
-    currentIngredient: TIngredientReducerType | null
+type TCurrentIngredientInitialState = {
+    currentIngredient: TIngredientType | null
   }
 
-const initialState:  TInitialState = {
+const initialState:  TCurrentIngredientInitialState = {
     currentIngredient: null
 }
 
-export const currentIngredientReducer = (state = initialState, action: { type: string; payload: any; }) => {
+export const currentIngredientReducer = (state = initialState, action: TCurrentIngredientUnionType): TCurrentIngredientInitialState=> {
     switch (action.type) {
         case GET__CURRENT_INGREDIENT: {
             return {

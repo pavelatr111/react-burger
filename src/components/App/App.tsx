@@ -16,6 +16,13 @@ import IngredientDetails from "../Modal/IngredientDetails/IngredientDetails";
 import { getUserActions } from "../../services/actions/user";
 import { useDispatch } from "../../hooks/hooks";
 import { NotFoundPage } from "../../pages/404";
+import Feed from "../../pages/Feed/Feed";
+import DitailsOrder from "../DitailsOrder/DitailsOrder";
+import styles from "./App.module.css";
+import UserOrder from "../UserOrder/UserOrder";
+import { UserProfile } from "../Profile/Profile";
+import ProfileForm from "../ProfileForm/ProfileForm";
+import UserOrderInfo from "../UserOrderInfo/UserOrderInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,12 +40,39 @@ function App() {
     <div>
       <AppHeader />
       <Routes location={background || location}>
-        
-        <Route path={"/"} element={<Main />}/>
-        <Route path={"/register"} element={<ProtectedRouteElement  anonymous={true}><Registration /></ProtectedRouteElement>} />
-        <Route path={"/login"} element={<ProtectedRouteElement  anonymous={true}><Login /></ProtectedRouteElement>} />
-        <Route path={"/forgot-password"} element={<ProtectedRouteElement  anonymous={true}><ForgotPassword /></ProtectedRouteElement>} />
-        <Route path="/reset-password" element={<ProtectedRouteElement  anonymous={true}><ResetPassword /></ProtectedRouteElement>} />
+        <Route path={"/"} element={<Main />} />
+        <Route
+          path={"/register"}
+          element={
+            <ProtectedRouteElement anonymous={true}>
+              <Registration />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path={"/login"}
+          element={
+            <ProtectedRouteElement anonymous={true}>
+              <Login />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path={"/forgot-password"}
+          element={
+            <ProtectedRouteElement anonymous={true}>
+              <ForgotPassword />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path={"/reset-password"}
+          element={
+            <ProtectedRouteElement anonymous={true}>
+              <ResetPassword />
+            </ProtectedRouteElement>
+          }
+        />
         <Route
           path="/profile"
           element={
@@ -46,9 +80,17 @@ function App() {
               <ProfilePage />
             </ProtectedRouteElement>
           }
-        />
-        <Route path="/ingredients/:id" element={<IngredientPage />} />
-        <Route path="*" element={<NotFoundPage/>} />
+        >
+          <Route path="" element={<ProfileForm />} />
+          <Route path="orders" element={<UserOrder />} />
+          <Route path="orders/:id" element={<UserOrderInfo/>} />
+        </Route>
+        <Route path="ingredients/:id" element={<IngredientPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="feed">
+          <Route path="" element={<Feed />} />
+          <Route path="feed/:id" element={<DitailsOrder />} />
+        </Route>
       </Routes>
       {background && (
         <Routes>
@@ -60,6 +102,22 @@ function App() {
                 closePopup={() => navigate(-1)}
               >
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal closePopup={() => navigate(-1)}>
+                <DitailsOrder />
+              </Modal>
+            }
+          />
+          <Route
+            path="profile/orders/:id"
+            element={
+              <Modal closePopup={() => navigate(-1)}>
+                <UserOrderInfo/>
               </Modal>
             }
           />

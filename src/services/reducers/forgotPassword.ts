@@ -1,4 +1,4 @@
-import { FORGOT_PASSWORD_ERROR, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS } from "../actions/forgotPassword"
+import { FORGOT_PASSWORD_ERROR, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, TForgotPasswordUnionType } from "../actions/forgotPassword"
 
 type TInitialState = {
     success: boolean,
@@ -13,7 +13,7 @@ const initialState: TInitialState = {
     feedFailed: false,
 }
 
-export function forgotPasswordReducer(state = initialState, action: { type: string; payload: any }) {
+export function forgotPasswordReducer(state = initialState, action: TForgotPasswordUnionType) {
     switch (action.type) {
         case FORGOT_PASSWORD_REQUEST: {
             return {

@@ -1,6 +1,6 @@
-import { LOGIN_ERROR, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUEST, LOGOUT_SUCCESS } from "../actions/loginActions.jsx"
-import { GET_USER_ERROR, GET_USER_REQUEST, GET_USER_SUCCESS, UPDATE_USER_ERROR, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS } from "../actions/user.jsx"
-import { IPersonInfoUser } from "../types/types-api.js";
+import { LOGIN_ERROR, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUEST, LOGOUT_SUCCESS, TLoginUionType } from "../actions/loginActions"
+import { GET_USER_ERROR, GET_USER_REQUEST, GET_USER_SUCCESS, TUserUnionType, UPDATE_USER_ERROR, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS } from "../actions/user"
+import { IPersonInfoUser } from "../types/types-api";
 
 type TUser ={
     success: boolean
@@ -17,7 +17,7 @@ const initialState: TUser = {
     feedFailed: false,
 }
 
-export function loginReducer(state = initialState, action: { type: string; payload: { success: boolean; user: any }; }) {
+export function loginReducer(state = initialState, action: TLoginUionType | TUserUnionType):TUser {
     switch (action.type) {
         case LOGIN_REQUEST: {
             return {

@@ -39,3 +39,24 @@ export interface IGetBurgerIngredients extends IResponseBody {
     refreshToken: string;
     user: IPersonInfoUser;
   }
+
+  export type TOrder = {
+    createdAt: string;
+    ingredients: Array<TIngredientType>;
+    name: string;
+    number: number;
+    owner: IPersonInfoUser;
+    price: number;
+    status: string;
+    updatedAt: string;
+    _id: string;
+  };
+  export type TwsOrderType = {
+    ingredients: Array<string>,
+    _id: string,
+    status: 'done' | 'created' | 'pending',
+    number: number | string,
+    createdAt: string,
+    updatedAt: string,
+    name: string
+  }

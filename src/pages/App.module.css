@@ -17,8 +17,8 @@
 .profile {
   display: grid;
   grid-template-columns: 1fr max-content 1fr;
-  gap: 60px;
-  width: 1240px;
+  gap: 40px;
+  max-width: 1240px;
   margin: 120px auto;
 }
 

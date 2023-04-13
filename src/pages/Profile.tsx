@@ -11,7 +11,6 @@ function ProfilePage() {
   return (
     <section className={styles.profile}>
       <UserProfile />
-      <ProfileForm />
       <Outlet />
     </section>
   );

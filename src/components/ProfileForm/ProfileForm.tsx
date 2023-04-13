@@ -10,8 +10,8 @@ import styles from "./ProfileForm.module.css";
 function ProfileForm() {
   const dispatch = useDispatch();
 
-  const userName = useSelector((state) => state.login.user.name);
-  const userEmail = useSelector((state) => state.login.user.email);
+  const userName = useSelector((state) => state.login.user!.name);
+  const userEmail = useSelector((state) => state.login.user!.email);
 
   const [value, setValue] = useState({
     name: "",

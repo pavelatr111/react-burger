@@ -4,26 +4,17 @@ import {
   POST__ORDER_REQUEST,
   POST__ORDER_SUCCESS,
   RESET_ORDER,
+  TOrderUnionType,
 } from "../actions/orderDitails";
 import { TIngredientType } from "../types/types";
-import { IPersonInfoUser } from "../types/types-api";
+import { IPersonInfoUser, TOrder } from "../types/types-api";
 
-type TOrder = {
-  createdAt: string;
-  ingredients: Array<TIngredientType>;
-  name: string;
-  number: number;
-  owner: IPersonInfoUser;
-  price: number;
-  status: string;
-  updatedAt: string;
-  _id: string;
-};
+
 
 type TInitialState = {
   feedRequest: boolean;
   feedFailed: boolean;
-  order: TOrder | null;
+  order: number | null;
   orderPopupShow: boolean;
 };
 
@@ -36,7 +27,7 @@ const initialState: TInitialState = {
 
 export const orderReducer = (
   state = initialState,
-  action: { type: string; payload: TOrder }
+  action: TOrderUnionType
 ): TInitialState => {
   switch (action.type) {
     case POST__ORDER_REQUEST: {
