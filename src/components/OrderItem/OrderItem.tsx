@@ -2,18 +2,22 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useMemo } from "react";
+import {  useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "../../hooks/hooks";
-import { getBurgerIngredients } from "../../services/actions/burgerIngredients";
+import {  useSelector } from "../../hooks/hooks";
 import { TIngredientType } from "../../services/types/types";
+import { TwsOrderType } from "../../services/types/types-api";
 import styles from "./OrderItem.module.css";
 
-function OrderItem(props: any) {
+type TOrderProps = {
+  readonly order: TwsOrderType;
+  readonly isPerson: boolean;
+} 
+
+function OrderItem(props: TOrderProps) {
   const location = useLocation();
   const { dataBurger } = useSelector((state) => state.ingredients);
   const countItemsMax = 6;
-  // console.log(props.order.ingredients);
 
   
 
@@ -55,8 +59,8 @@ function OrderItem(props: any) {
   const totalPrice = useMemo(
     () =>
       orderIngredients?.reduce(
-        (acc: number, elem: TIngredientType) =>
-          elem?.price + acc,
+        (acc: number, elem: TIngredientType | undefined) =>
+          elem!.price + acc,
         0
       ),
     [orderIngredients]
@@ -92,7 +96,7 @@ function OrderItem(props: any) {
       <div className={styles.filling}>
         <div className={styles.images_selection}>
           {firstSixItems &&
-            firstSixItems.map((item: TIngredientType, i: number) => {
+            firstSixItems.map((item: TIngredientType | undefined, i: number) => {
               let zIndex = countItemsMax - i;
               let right = -2 * 10;
               let otherIngredients =

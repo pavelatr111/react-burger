@@ -17,8 +17,6 @@ function UserOrderInfo() {
     dispatch(getOrderAction(id));
   }, [dispatch, id]);
 
-//   const orderInformation = orders.find((e: TwsOrderType) => e.number == id);
-  //   console.log(orderInformation);
 
   const orderInformation= useSelector((state) => state.order.orderInformation);
   const ingredients = useSelector((state) => state.ingredients.dataBurger);

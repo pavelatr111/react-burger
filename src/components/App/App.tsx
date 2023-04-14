@@ -1,5 +1,5 @@
 import AppHeader from "../AppHeader/AppHeader";
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import { getBurgerIngredients } from "../../services/actions/burgerIngredients";
@@ -17,10 +17,8 @@ import { getUserActions } from "../../services/actions/user";
 import { useDispatch } from "../../hooks/hooks";
 import { NotFoundPage } from "../../pages/404";
 import Feed from "../../pages/Feed/Feed";
-import DitailsOrder from "../DitailsOrder/DitailsOrder";
 import styles from "./App.module.css";
 import UserOrder from "../UserOrder/UserOrder";
-import { UserProfile } from "../Profile/Profile";
 import ProfileForm from "../ProfileForm/ProfileForm";
 import UserOrderInfo from "../UserOrderInfo/UserOrderInfo";
 

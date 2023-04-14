@@ -25,8 +25,6 @@ export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promi
 
   } catch (err: any) {
     if (err.message === 'jwt expired' || "Token is invalid") {
-      deleteCookie('access')
-      // deleteCookie('refreshToken')
       const refreshData = await refreshToken();
       if (!refreshData.success) {
         Promise.reject(refreshData);
