@@ -9,8 +9,6 @@ function UserOrder() {
   const accessToken = getCookie('access'); 
 
 
-  const { orders } = useSelector(state => state.ws);
-
   useEffect(() => {
     dispatch(wsConnectionStart(`wss://norma.nomoreparties.space/orders?token=${accessToken}`));
 
@@ -18,6 +16,8 @@ function UserOrder() {
       dispatch(wsConnectionClosed())
     }
   }, [dispatch, accessToken]);
+
+  const { orders } = useSelector(state => state.ws);
 
     return ( 
         <div className={styles.container}>

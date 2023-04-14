@@ -1,8 +1,7 @@
-import { useCallback, useEffect } from "react";
-import { Navigate, NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "../../hooks/hooks";
+import { useCallback } from "react";
+import {  NavLink } from "react-router-dom";
+import { useDispatch} from "../../hooks/hooks";
 import { logoutActions } from "../../services/actions/loginActions";
-import { getUserActions } from "../../services/actions/user";
 import styles from "./Profile.module.css";
 
 export function UserProfile() {
@@ -13,13 +12,6 @@ export function UserProfile() {
     dispatch(logoutActions());
   }, [dispatch]);
 
-    useEffect(() => {
-    dispatch(getUserActions());
-  }, [dispatch])
-
-  // if (success) {
-  //   return <Navigate to={"/login"} />;
-  // }
 
   return (
     <nav className={styles.menu}>

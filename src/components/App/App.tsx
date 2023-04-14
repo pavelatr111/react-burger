@@ -81,19 +81,30 @@ function App() {
             </ProtectedRouteElement>
           }
         >
+          {/* как настроить роутинг чтобы избавится от боковой понели в профиле?? умоляю подскажите */}
           <Route path="" element={<ProfileForm />} />
           <Route path="orders" element={<UserOrder />} />
-          <Route path="orders/:id" element={<UserOrderInfo/>} />
+          <Route path="orders/:id" element={<UserOrderInfo />} />
         </Route>
         <Route path="ingredients/:id" element={<IngredientPage />} />
+
         <Route path="*" element={<NotFoundPage />} />
+
         <Route path="feed">
           <Route path="" element={<Feed />} />
-          <Route path="feed/:id" element={<DitailsOrder />} />
+          <Route
+            path=":id"
+            element={
+              <div className={styles.details}>
+                <UserOrderInfo />
+              </div>
+            }
+          />
         </Route>
       </Routes>
-      {background && (
+       
         <Routes>
+        {background &&(
           <Route
             path="/ingredients/:id"
             element={
@@ -104,25 +115,27 @@ function App() {
                 <IngredientDetails />
               </Modal>
             }
-          />
+          />)}
+          {background &&(
           <Route
             path="/feed/:id"
             element={
               <Modal closePopup={() => navigate(-1)}>
-                <DitailsOrder />
+                <UserOrderInfo />
               </Modal>
             }
-          />
+          />)}
+          {background &&(
           <Route
-            path="profile/orders/:id"
+            path="/profile/orders/:id"
             element={
               <Modal closePopup={() => navigate(-1)}>
-                <UserOrderInfo/>
+                <UserOrderInfo />
               </Modal>
             }
-          />
+          />)}
         </Routes>
-      )}
+      
     </div>
   );
 }

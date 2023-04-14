@@ -1,52 +1,56 @@
-import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useMemo } from "react";
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router";
-import { useSelector } from "../../hooks/hooks";
+import { useDispatch, useSelector } from "../../hooks/hooks";
+import { getOrderAction } from "../../services/actions/orderDitails";
 import { TIngredientType } from "../../services/types/types";
-import { TwsOrderType } from "../../services/types/types-api";
-import styles from "./UserOrderInfo.module.css"
+import styles from "./UserOrderInfo.module.css";
 
 function UserOrderInfo() {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const { orders } = useSelector(state => state.ws);
-  //   useEffect(() => {
-  //     dispatch(orderInfoBurger(id));
-  //   }, [dispatch, id]);
 
-  const orderInformation = orders.find((e:TwsOrderType) => e.number == id);
-//   console.log(orderInformation);
+  useEffect(() => {
+    dispatch(getOrderAction(id));
+  }, [dispatch, id]);
 
+//   const orderInformation = orders.find((e: TwsOrderType) => e.number == id);
+  //   console.log(orderInformation);
+
+  const orderInformation= useSelector((state) => state.order.orderInformation);
   const ingredients = useSelector((state) => state.ingredients.dataBurger);
 
+  const repeatId = useMemo(
+    () => {
+      if (orderInformation === null) {
+        return null;
+      }
+      return orderInformation.ingredients.filter(
+        (item, index) => orderInformation.ingredients.indexOf(item) === index
+      )
+    }, [orderInformation]
+  );
+
   const orderIngredients = useMemo(() => {
-    if (!orderInformation)  {
-      return 
+    if (!repeatId) {
+      return;
     }
-    return orderInformation.ingredients.map((elemId: string) => {
-      return ingredients.find((elem: { _id: string; }) => elem?._id === elemId);
+    return repeatId.map((elemId: string) => {
+      return ingredients.find((elem) => elem._id === elemId);
     });
-  }, [ingredients, orderInformation]);
+  }, [ingredients, repeatId]);
 
   const totalPrice = useMemo(
-    () => 
-     orderIngredients?.reduce(
-      (acc: number, elem: TIngredientType |any) =>
-        elem?.price + acc,
-      0
-    )
-  , [orderIngredients]);
-
-//   const totalPrice = useMemo(
-//     () =>
-//       orderIngredients?.reduce(
-//         (acc: number, elem: TIngredientType) =>
-//           elem?.price + acc,
-//         0
-//       ),
-//     [orderIngredients]
-//   );
-
+    () =>
+      orderIngredients?.reduce( (acc: number, elem: TIngredientType | undefined) =>
+        acc + elem!.price * (orderInformation!.ingredients.filter((elemId: string) => elemId === elem!._id).length),
+        0
+      ),
+    [orderIngredients]
+  );
 
   const orderStatus = useMemo(() => {
     if (orderInformation === null) {
@@ -59,9 +63,8 @@ function UserOrderInfo() {
       : "Готовится";
   }, [orderInformation]);
 
-
-    return ( 
-        <main className={styles.main_container}>
+  return (
+    <main className={styles.main_container}>
       {orderInformation && (
         <>
           <p
@@ -82,6 +85,7 @@ function UserOrderInfo() {
             {orderIngredients &&
               orderIngredients.map(
                 (item: TIngredientType | undefined, i: number) => {
+                    const countIngredient = orderInformation!.ingredients.filter((elemId: string) => elemId === item!._id).length;
                   return (
                     <li key={i} className="mt-4 mr-6">
                       <div className={styles.row_fill}>
@@ -96,9 +100,7 @@ function UserOrderInfo() {
                           </p>
                         </div>
                         <div className={styles.count_price}>
-                          <span className="text text_type_digits-default mr-2">{`1 x ${
-                            item?.price
-                          }`}</span>
+                          <span className="text text_type_digits-default mr-2">{`${countIngredient} X ${item?.price}`}</span>
                           <CurrencyIcon type="primary" />
                         </div>
                       </div>
@@ -127,7 +129,7 @@ function UserOrderInfo() {
         </>
       )}
     </main>
-     );
+  );
 }
 
 export default UserOrderInfo;

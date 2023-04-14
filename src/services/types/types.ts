@@ -56,7 +56,6 @@ type TApplicationActions =
   | TWsActions;
 
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
-// export type AppDispatch = Dispatch<TApplicationActions>;
 
 export type AppThunk<ReturnType = void> = ActionCreator<
   ThunkAction<ReturnType, RootState, Action, TApplicationActions>

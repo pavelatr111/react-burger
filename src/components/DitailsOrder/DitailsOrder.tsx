@@ -5,61 +5,49 @@ import {
 import { useEffect, useMemo } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "../../hooks/hooks";
-import { ordersA } from "../../pages/Feed/Feed";
+import { getOrderAction } from "../../services/actions/orderDitails";
 import { TIngredientType } from "../../services/types/types";
 import styles from "./DitailsOrder.module.css";
 
 function DitailsOrder() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { id } = useParams();
 
-    const {orders}= useSelector((state) => state.ws);
-// console.log(orders);
+  useEffect(() => {
+    dispatch(getOrderAction(id));
+  }, [dispatch, id]);
 
-  const orderInformation = orders.find((e: any) => e.number == id);
-  // console.log(orderInformation);
+  const orderInformation = useSelector((state) => state.order.orderInformation);
+
 
   const ingredients = useSelector((state) => state.ingredients.dataBurger);
-// console.log(ingredients);
 
   const orderIngredients = useMemo(() => {
-    if (!orderInformation)  {
-      return 
+    if (!orderInformation) {
+      return;
     }
     return orderInformation.ingredients.map((elemId: string) => {
       return ingredients.find((elem) => elem._id === elemId);
     });
   }, [ingredients, orderInformation]);
 
-// console.log(orderIngredients);
 
   const totalPrice = useMemo(
-    () => 
-     orderIngredients!.reduce(
-      (acc: number, elem: TIngredientType | undefined ) =>
-        elem!.price + acc,
-      0
-    )
-  , [orderIngredients]);
-
-//   const totalPrice = useMemo(
-//     () =>
-//       orderIngredients?.reduce(
-//         (acc: number, elem: TIngredientType) =>
-//           elem?.price + acc,
-//         0
-//       ),
-//     [orderIngredients]
-//   );
-
+    () =>
+      orderIngredients?.reduce(
+        (acc: number, elem: TIngredientType | undefined) => elem!.price + acc,
+        0
+      ),
+    [orderIngredients]
+  );
 
   const orderStatus = useMemo(() => {
     if (orderInformation === null) {
       return null;
     }
-    return orderInformation!.status === "done"
+    return orderInformation?.status === "done"
       ? "Выполнен"
-      : orderInformation!.status === "created"
+      : orderInformation?.status === "created"
       ? "Создан"
       : "Готовится";
   }, [orderInformation]);
@@ -71,10 +59,10 @@ function DitailsOrder() {
           <p
             className={`text text_type_digits-default mb-5 ${styles.number_order}`}
           >
-            #{orderInformation!.number}
+            #{orderInformation?.number}
           </p>
           <p className={`text text_type_main-medium mb-2`}>
-            {orderInformation!.name}
+            {orderInformation?.name}
           </p>
           <p
             className={`text text_type_main-default mb-10 ${styles.status_order}`}
@@ -100,9 +88,7 @@ function DitailsOrder() {
                           </p>
                         </div>
                         <div className={styles.count_price}>
-                          <span className="text text_type_digits-default mr-2">{`1 x ${
-                            item!.price
-                          }`}</span>
+                          <span className="text text_type_digits-default mr-2">{`1 x ${item?.price}`}</span>
                           <CurrencyIcon type="primary" />
                         </div>
                       </div>
@@ -116,7 +102,7 @@ function DitailsOrder() {
           >
             <p className="text text_type_main-default text_color_inactive">
               <FormattedDate
-                date={new Date(orderInformation!.createdAt)}
+                date={new Date(orderInformation?.createdAt)}
                 className="text text_type_main-default text_color_inactive "
               />
             </p>
@@ -133,5 +119,4 @@ function DitailsOrder() {
     </main>
   );
 }
-
 export default DitailsOrder;

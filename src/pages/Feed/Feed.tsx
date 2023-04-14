@@ -6,41 +6,6 @@ import { getBurgerIngredients } from "../../services/actions/burgerIngredients";
 import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/wsAction";
 import styles from "./Feed.module.css";
 
-export const ordersA = [
-  {
-    ingredients: [
-        "60d3b41abdacab0026a733c7",
-        "60d3b41abdacab0026a733ce",
-        "60d3b41abdacab0026a733cf",
-        "60d3b41abdacab0026a733cc",
-        "60d3b41abdacab0026a733cd",
-        "60d3b41abdacab0026a733cf",
-        "60d3b41abdacab0026a733c7",
-    ],
-    name: "burger1",
-    _id: "",
-    status: "done",
-    number: "5483",
-    createdAt: "2021-06-23T14:43:22.587Z",
-    updatedAt: "2021-06-23T14:43:22.603Z",
-  },
-  {
-    ingredients: [
-      "60d3b41abdacab0026a733c7",
-      "60d3b41abdacab0026a733ce",
-      "60d3b41abdacab0026a733cf",
-      "60d3b41abdacab0026a733cc",
-      "60d3b41abdacab0026a733cd"
-    ],
-    name: "burger2",
-    _id: "",
-    status: "pending",
-    number: "12345",
-    createdAt: "2021-06-23T14:43:22.587Z",
-    updatedAt: "2021-06-23T14:43:22.603Z",
-  },
-];
-
 
 
 function Feed() {

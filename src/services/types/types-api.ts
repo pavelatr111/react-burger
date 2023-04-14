@@ -52,6 +52,7 @@ export interface IGetBurgerIngredients extends IResponseBody {
     _id: string;
   };
   export type TwsOrderType = {
+    [x: string]: any;
     ingredients: Array<string>,
     _id: string,
     status: 'done' | 'created' | 'pending',
@@ -59,4 +60,7 @@ export interface IGetBurgerIngredients extends IResponseBody {
     createdAt: string,
     updatedAt: string,
     name: string
+  };
+  export interface IGetOrderInfo extends IResponseBody {
+    orders: Array<TwsOrderType>;
   }

@@ -1,6 +1,6 @@
 import { MainBurgerApi } from "../constants/constants";
-import { IGetBurgerIngredients, IOrderPost, IPasswordResponse, IPersonUser, IResponse, IResponseBody, IToken, ITokenResponse } from "../services/types/types-api.js";
-import { getCookie, setCookie } from "./token";
+import { IGetBurgerIngredients, IGetOrderInfo, IOrderPost, IPasswordResponse, IPersonUser, IResponse, IResponseBody, IToken, ITokenResponse } from "../services/types/types-api.js";
+import { deleteCookie, getCookie, setCookie } from "./token";
 
 
 function responce<T> (res: IResponse<T>): Promise<T> | Promise<never>  {
@@ -16,6 +16,7 @@ function request<T>(url: string, options: RequestInit): Promise<T> {
   return fetch(url, options).then(responce)
 };
 
+//как исправитьдублирование токенов в куки????
 
 export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promise<T> => {
   try {
@@ -24,7 +25,8 @@ export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promi
 
   } catch (err: any) {
     if (err.message === 'jwt expired' || "Token is invalid") {
-
+      deleteCookie('access')
+      // deleteCookie('refreshToken')
       const refreshData = await refreshToken();
       if (!refreshData.success) {
         Promise.reject(refreshData);
@@ -33,9 +35,9 @@ export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promi
       setCookie('access', refreshData.accessToken.split('Bearer ')[1])
 
       options.headers.authorization = refreshData.accessToken;
-      return request<T>(url, options);
-      // const res = await fetch(url, options);
-      // return await responce(res);
+      // return request<T>(url, options);
+      const res = await fetch(url, options);
+      return await responce(res);
     } else {
       return Promise.reject(err);
     }
@@ -165,4 +167,16 @@ function updateUser(name: string, email: string, password: string): Promise<IPer
     }),
   })
 }
-export { getIngredients, orderPost, forgotPassword, resetPassword, registration, login, logout, refreshToken, getUser, updateUser }
+
+ const getOrderInfo = (numberOrder: string | undefined): Promise<IGetOrderInfo> => {
+  return fetch(`${MainBurgerApi}orders/${numberOrder}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(responce)
+};
+
+
+export { getIngredients, orderPost, forgotPassword, resetPassword, registration, login, logout, refreshToken, getUser, updateUser ,getOrderInfo}

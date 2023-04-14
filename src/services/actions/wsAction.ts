@@ -44,22 +44,6 @@ export interface IWsConnectionStart {
     readonly type: typeof WS_CONNECTION_DISCONNECT;
   }
 
-
-//   export interface IWsActions {
-//     readonly wsInit: string
-//     readonly onOpen: string
-//     readonly onClose: string
-//     readonly onError: string
-//     readonly onOrders: string
-// }
-
-//   export const wsActions: IWsActions = {
-//     wsInit: WS_CONNECTION_START,
-//     onOpen: WS_CONNECTION_SUCCESS,
-//     onClose: WS_CONNECTION_CLOSED,
-//     onError: WS_CONNECTION_ERROR,
-//     onOrders: WS_GET_MESSAGE
-// };
  
   
   export type TWsActions =

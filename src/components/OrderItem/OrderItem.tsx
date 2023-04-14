@@ -104,7 +104,7 @@ function OrderItem(props: any) {
                   className={styles.image}
                 >
                   <img
-                    style={{ opacity: countItemsMax === i + 1 ? "0.4" : "1" }}
+                    style={{ opacity: countItemsMax === (i + 1) ? "0.4" : "1" }}
                     src={item?.image_mobile}
                     alt={item?.name}
                     className={styles.image_position}
