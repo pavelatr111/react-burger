@@ -17,7 +17,7 @@ const initialState: TUser = {
     feedFailed: false,
 }
 
-export function loginReducer(state = initialState, action: TLoginUionType | TUserUnionType):TUser {
+export function loginReducer(state = initialState, action: TLoginUionType | TUserUnionType) {
     switch (action.type) {
         case LOGIN_REQUEST: {
             return {
@@ -30,7 +30,7 @@ export function loginReducer(state = initialState, action: TLoginUionType | TUse
             return {
                 ...state,
                 success: action.payload.success,
-                user: action.payload.user,
+                user: action.payload,
                 feedRequest: false
             }
         }

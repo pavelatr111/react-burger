@@ -59,7 +59,6 @@ function BurgerConstructor() {
     if(!buns) {
       return
     }
-      // const newArray = ingredients.concat(buns);
       const ingredientId = [buns._id,...ingredients.map((element: { _id: string; }) => element._id),buns._id];
       dispatch(orderPopupAction());
       dispatch(postOrderAction(ingredientId));

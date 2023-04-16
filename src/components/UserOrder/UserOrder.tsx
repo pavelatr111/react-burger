@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "../../hooks/hooks";
-import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/wsAction";
+import { wsConnectionClosed, wsConnectionDisconnect, wsConnectionStart } from "../../services/actions/wsAction";
+import { TwsOrderType } from "../../services/types/types-api";
+import { socketURL } from "../../utils/data";
 import { getCookie } from "../../utils/token";
 import OrderItem from "../OrderItem/OrderItem";
 import styles from "./UserOrder.module.css"
@@ -10,10 +12,10 @@ function UserOrder() {
 
 
   useEffect(() => {
-    dispatch(wsConnectionStart(`wss://norma.nomoreparties.space/orders?token=${accessToken}`));
+    dispatch(wsConnectionStart(`${socketURL}?token=${accessToken}`));
 
     return () => {
-      dispatch(wsConnectionClosed())
+      dispatch(wsConnectionDisconnect())
     }
   }, [dispatch, accessToken]);
 
@@ -21,7 +23,7 @@ function UserOrder() {
 
     return ( 
         <div className={styles.container}>
-      {orders && orders.map((elem: any, index: number) => 
+      {orders && orders.map((elem: TwsOrderType, index: number) => 
         <OrderItem key={index} order={elem} isPerson={true} />
       )}
     </div>

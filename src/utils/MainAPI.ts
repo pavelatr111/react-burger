@@ -16,7 +16,6 @@ function request<T>(url: string, options: RequestInit): Promise<T> {
   return fetch(url, options).then(responce)
 };
 
-//как исправитьдублирование токенов в куки????
 
 export const fetchWithRefresh = async <T>(url: string, options: TOptions): Promise<T> => {
   try {

@@ -79,7 +79,7 @@ function App() {
             </ProtectedRouteElement>
           }
         >
-          {/* как настроить роутинг чтобы избавится от боковой понели в профиле?? умоляю подскажите */}
+          {/* При прямом переходе на маршрут /profile/orders/:id открывается заказ и боковая панель с профилем и историей  заказов */}
           <Route path="" element={<ProfileForm />} />
           <Route path="orders" element={<UserOrder />} />
           <Route path="orders/:id" element={<UserOrderInfo />} />

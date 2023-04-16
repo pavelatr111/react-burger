@@ -1,7 +1,7 @@
 import { login, logout } from "../../utils/MainAPI";
 import { deleteCookie, setCookie } from "../../utils/token";
 import { AppDispatch } from "../types/types";
-import {  IPersonUser, IResponseBody, ITokenResponse } from "../types/types-api";
+import {  IPersonInfoUser, IPersonUser, IResponseBody, ITokenResponse } from "../types/types-api";
 
 export const LOGIN_REQUEST: "LOGIN_REQUEST" = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS: "LOGIN_SUCCESS" = "LOGIN_SUCCESS";
@@ -12,12 +12,13 @@ export const LOGOUT_SUCCESS: "LOGOUT_SUCCESS" = "LOGOUT_SUCCESS";
 export const LOGOUT_ERROR: "LOGOUT_ERROR" = "LOGOUT_ERROR";
 
 
+
 export interface ILoginRequestAction {
   readonly type: typeof LOGIN_REQUEST;
 }
 export interface ILoginSuccessAction {
   readonly type: typeof LOGIN_SUCCESS;
-  readonly payload: IPersonUser;
+  readonly payload: IPersonInfoUser;
 }
 export interface ILoginErrorAction {
   readonly type: typeof LOGIN_ERROR;
@@ -45,6 +46,7 @@ export type TLoginUionType =
 
 
 
+
 export function loginActions(email: string, password: string) {
   return function (dispatch: AppDispatch) {
     dispatch 
@@ -61,7 +63,7 @@ export function loginActions(email: string, password: string) {
         dispatch 
           ({
             type: LOGIN_SUCCESS,
-            payload: res,
+            payload: res.user,
           });
       })
       .catch((e) => {
@@ -72,6 +74,7 @@ export function loginActions(email: string, password: string) {
       });
   };
 }
+
 export function logoutActions() {
   return function (dispatch:AppDispatch) {
     dispatch

@@ -1,10 +1,11 @@
 
 import type { Middleware, MiddlewareAPI } from 'redux';
-import { TWsActions, wsConnectionClosed, wsConnectionError, wsConnectionOpen, wsConnectionStart, wsConnectionSuccess, wsGetMessage, WS_CONNECTION_OPEN, WS_CONNECTION_START } from '../services/actions/wsAction';
+import { TWsActions, wsConnectionClosed, wsConnectionError, wsConnectionOpen, wsConnectionStart, wsConnectionSuccess, wsGetMessage, WS_CONNECTION_DISCONNECT, WS_CONNECTION_OPEN, WS_CONNECTION_START } from '../services/actions/wsAction';
 import { AppDispatch, RootState, TwsActionType } from '../services/types/types';
 
 
 const WS_СLOSE_NORMAL = 1000;
+const timeout = 3000
 
 export const socketMiddleware = (wsActions: TwsActionType): Middleware => {
     return (store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -39,7 +40,7 @@ export const socketMiddleware = (wsActions: TwsActionType): Middleware => {
               dispatch(wsConnectionSuccess());
               timerWsReconnect = window.setTimeout(() => {
                 dispatch(wsConnectionStart(url));
-              }, 3000)
+              }, timeout)
             }
           };
   
@@ -54,13 +55,13 @@ export const socketMiddleware = (wsActions: TwsActionType): Middleware => {
             dispatch(wsConnectionError('Error in websocket'));
           };
   
-        //   if (action.type === wsActions.onDisconnect) {
-        //     window.clearTimeout(timerWsReconnect);
-        //     isWsConnected = false;
-        //     timerWsReconnect = 0;
-        //     socket.close();
-        //     dispatch(wsConnectionClosed());
-        //   }
+          if (action.type === WS_CONNECTION_DISCONNECT) {
+            window.clearTimeout(timerWsReconnect);
+            isWsConnected = false;
+            timerWsReconnect = 0;
+            socket.close();
+            dispatch(wsConnectionClosed());
+          }
         }
         next(action);
       };

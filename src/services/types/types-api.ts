@@ -1,8 +1,9 @@
 import { TIngredientType } from "./types";
 
 export interface IPersonInfoUser {
-    email: string;
-    name: string;
+    success: boolean;
+    email: string  ;
+    name: string ;
   }
   export interface IResponse<T> extends Response {
   json(): Promise<T>
