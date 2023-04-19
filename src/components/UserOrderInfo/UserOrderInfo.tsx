@@ -20,33 +20,33 @@ function UserOrderInfo() {
 
   const orderInformation= useSelector((state) => state.order.orderInformation);
   const ingredients = useSelector((state) => state.ingredients.dataBurger);
+// console.log(orderInformation);
 
-//   const repeatId = useMemo(
-//     () => {
-//       if (orderInformation === null) {
-//         return null;
-//       }
-//       return orderInformation.ingredients.filter(
-//         (item, index) => orderInformation.ingredients.indexOf(item) === index
-//       )
-//     }, [orderInformation]
-//   );
+  const repeatId = useMemo(
+    () => {
+      if (orderInformation === null) {
+        return null;
+      }
+      return orderInformation.ingredients.filter(
+        (item, index) => orderInformation.ingredients.indexOf(item) === index
+      )
+    }, [orderInformation]
+  );
 
   const orderIngredients = useMemo(() => {
-    if (!orderInformation) {
+    if (!repeatId) {
       return;
     }
-    return orderInformation.ingredients.map((elemId: string) => {
+    return repeatId.map((elemId: string) => {
       return ingredients.find((elem) => elem._id === elemId);
     });
-  }, [ingredients, orderInformation]);
+  }, [ingredients, repeatId]);
 
 
   const totalPrice = useMemo(
     () =>
-      orderIngredients?.reduce(
-        (acc: number, elem) =>
-          elem ? elem.price + acc : acc,
+      orderIngredients?.reduce( (acc: number, elem: TIngredientType | undefined) =>
+        acc +  elem!.price * (orderInformation!.ingredients.filter((elemId: string) => elemId === elem?._id).length),
         0
       ),
     [orderIngredients]
