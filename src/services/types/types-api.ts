@@ -57,7 +57,7 @@ export interface IGetBurgerIngredients extends IResponseBody {
     ingredients: Array<string>,
     _id: string,
     status: 'done' | 'created' | 'pending',
-    number: number | string,
+    number: number ,
     createdAt: string,
     updatedAt: string,
     name: string

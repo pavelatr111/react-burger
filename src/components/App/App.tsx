@@ -1,5 +1,5 @@
 import AppHeader from "../AppHeader/AppHeader";
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import { getBurgerIngredients } from "../../services/actions/burgerIngredients";
@@ -26,8 +26,8 @@ function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-
   const background = location.state && location.state.background;
+
 
   useEffect(() => {
     dispatch(getBurgerIngredients());
@@ -42,7 +42,7 @@ function App() {
         <Route
           path={"/register"}
           element={
-            <ProtectedRouteElement anonymous={true}>
+            <ProtectedRouteElement anonymous={false}>
               <Registration />
             </ProtectedRouteElement>
           }
@@ -50,7 +50,7 @@ function App() {
         <Route
           path={"/login"}
           element={
-            <ProtectedRouteElement anonymous={true}>
+            <ProtectedRouteElement anonymous={false}>
               <Login />
             </ProtectedRouteElement>
           }
@@ -58,7 +58,7 @@ function App() {
         <Route
           path={"/forgot-password"}
           element={
-            <ProtectedRouteElement anonymous={true}>
+            <ProtectedRouteElement anonymous={false}>
               <ForgotPassword />
             </ProtectedRouteElement>
           }
@@ -66,7 +66,7 @@ function App() {
         <Route
           path={"/reset-password"}
           element={
-            <ProtectedRouteElement anonymous={true}>
+            <ProtectedRouteElement anonymous={false}>
               <ResetPassword />
             </ProtectedRouteElement>
           }
@@ -74,15 +74,14 @@ function App() {
         <Route
           path="/profile"
           element={
-            <ProtectedRouteElement anonymous={false}>
+            <ProtectedRouteElement anonymous={true}>
               <ProfilePage />
             </ProtectedRouteElement>
           }
         >
-          {/* При прямом переходе на маршрут /profile/orders/:id открывается заказ и боковая панель с профилем и историей  заказов */}
-          <Route path="" element={<ProfileForm />} />
-          <Route path="orders" element={<UserOrder />} />
-          <Route path="orders/:id" element={<UserOrderInfo />} />
+          <Route path="/profile" element={<ProfileForm />} />
+          <Route path="/profile/orders" element={<UserOrder />} />
+          <Route path="/profile/orders/:id" element={<UserOrderInfo />} />
         </Route>
         <Route path="ingredients/:id" element={<IngredientPage />} />
 
@@ -100,9 +99,9 @@ function App() {
           />
         </Route>
       </Routes>
-       
+
+      {background && (
         <Routes>
-        {background &&(
           <Route
             path="/ingredients/:id"
             element={
@@ -113,8 +112,8 @@ function App() {
                 <IngredientDetails />
               </Modal>
             }
-          />)}
-          {background &&(
+          />
+
           <Route
             path="/feed/:id"
             element={
@@ -122,18 +121,20 @@ function App() {
                 <UserOrderInfo />
               </Modal>
             }
-          />)}
-          {background &&(
+          />
+
           <Route
             path="/profile/orders/:id"
             element={
-              <Modal closePopup={() => navigate(-1)}>
-                <UserOrderInfo />
-              </Modal>
+              <div>
+                <Modal closePopup={() => navigate(-1)}>
+                  {<UserOrderInfo />}
+                </Modal>
+              </div>
             }
-          />)}
+          />
         </Routes>
-      
+      )}
     </div>
   );
 }

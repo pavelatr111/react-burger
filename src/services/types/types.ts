@@ -26,7 +26,7 @@ export type TDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 
 export type TIngredientType = {
-  id?: string;
+  readonly id: string;
   readonly _id: string;
   readonly name: string;
   readonly type: string;

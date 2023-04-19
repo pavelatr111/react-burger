@@ -43,16 +43,16 @@ function Registration() {
     alert("Icon Click Callback");
   };
 
-  if (user && suc) {
-    return (
-      // Переадресовываем авторизованного пользователя на главную страницу
-      <Navigate to="/" replace />
-    );
-  }
+  // if (user && suc) {
+  //   return (
+  //     // Переадресовываем авторизованного пользователя на главную страницу
+  //     <Navigate to="/" replace />
+  //   );
+  // }
 
-  if (success) {
-    return <Navigate to={"/login"} />;
-  }
+  // if (success) {
+  //   return <Navigate to={"/login"} />;
+  // }
 
   return (
     <form className={styles.default} onSubmit={registrationHandler}>

@@ -38,18 +38,31 @@ function OrderItem(props: TOrderProps) {
         : styles.status_default,
     [props]
   );
+   
 
-  const orderIngredients = useMemo(
-    () =>
-      props.order.ingredients.map((elemId: string) => {
-        // console.log(elemId);
+  const orderIngredients = useMemo(() => {
+    const ingredients: TIngredientType[] = [];
+    props.order.ingredients.forEach((ingredientId)=> {
+      if(ingredientId !== null || ingredientId !== undefined) {
+        const ingredientItem = dataBurger
+        .find(ingredient => ingredient._id === ingredientId);
+        if(ingredientItem !== undefined) {
+          ingredients.push(ingredientItem);
+        }
+      }
+    });
+    return ingredients;
+    
+    // () =>
+    //   props.order.ingredients.map((elemId: string) => {
+    //     if(elemId !== undefined || elemId !== null){
+    //     return dataBurger.find((elem: TIngredientType) => elem._id === elemId );
+    //     }
+    //   }),
+    // [dataBurger, props]
+}, [props.order]);
 
-        return dataBurger.find((elem: TIngredientType) => elem?._id === elemId);
-      }),
-    [dataBurger, props]
-  );
-
-    // console.log(orderIngredients);
+// console.log(orderIngredients);
 
   const firstSixItems = useMemo(
     () => orderIngredients.slice(0, countItemsMax),
@@ -58,19 +71,22 @@ function OrderItem(props: TOrderProps) {
 
   const totalPrice = useMemo(
     () =>
-      orderIngredients?.reduce(
-        (acc: number, elem: TIngredientType | undefined) =>
-          elem!.price + acc,
+      orderIngredients.reduce(
+        (acc: number, elem) =>
+          elem ? elem?.price + acc : acc,
         0
       ),
     [orderIngredients]
   );
 
+ 
+  
+
   return (
     <Link
       className={styles.structure_order}
       to={`${location.pathname}/${props.order.number}`}
-      state={{ background: location }}
+      state={{ background: location.pathname }}
     >
       <div className={styles.structure_order_info}>
         <div className={styles.number_order}>
@@ -96,7 +112,7 @@ function OrderItem(props: TOrderProps) {
       <div className={styles.filling}>
         <div className={styles.images_selection}>
           {firstSixItems &&
-            firstSixItems.map((item: TIngredientType | undefined, i: number) => {
+            firstSixItems.map((item: TIngredientType |  undefined, i: number) => {
               let zIndex = countItemsMax - i;
               let right = -2 * 10;
               let otherIngredients =

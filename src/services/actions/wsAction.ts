@@ -11,8 +11,8 @@ export const WS_CONNECTION_DISCONNECT: 'WS_CONNECTION_DISCONNECT' = 'WS_CONNECTI
 
 interface IMessage {
     orders: TwsOrderType[],
-    total: number | null,
-    totalToday: number | null
+    total: number ,
+    totalToday: number 
   }
 
 export interface IWsConnectionStart {
@@ -29,7 +29,7 @@ export interface IWsConnectionStart {
   
   export interface IWsConnectionErrorAction {
     readonly type: typeof WS_CONNECTION_ERROR;
-    payload: string | undefined;
+    payload: string;
   }
   
   export interface IWsConnectionClosedAction {
