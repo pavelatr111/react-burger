@@ -52,17 +52,9 @@ function OrderItem(props: TOrderProps) {
       }
     });
     return ingredients;
-    
-    // () =>
-    //   props.order.ingredients.map((elemId: string) => {
-    //     if(elemId !== undefined || elemId !== null){
-    //     return dataBurger.find((elem: TIngredientType) => elem._id === elemId );
-    //     }
-    //   }),
-    // [dataBurger, props]
-}, [props.order]);
+}, [props.order, dataBurger]);
 
-// console.log(orderIngredients);
+
 
   const firstSixItems = useMemo(
     () => orderIngredients.slice(0, countItemsMax),

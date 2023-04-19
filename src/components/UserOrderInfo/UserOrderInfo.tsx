@@ -20,7 +20,6 @@ function UserOrderInfo() {
 
   const orderInformation= useSelector((state) => state.order.orderInformation);
   const ingredients = useSelector((state) => state.ingredients.dataBurger);
-// console.log(orderInformation);
 
   const repeatId = useMemo(
     () => {
@@ -41,20 +40,7 @@ function UserOrderInfo() {
       return ingredients.find((elem) => elem._id === elemId);
     });
   }, [ingredients, repeatId]);
-console.log(orderIngredients);
 
-//   const totalPrice = useMemo(
-//     () =>
-//       orderIngredients?.reduce( (acc: number, elem: TIngredientType | undefined) =>
-//         acc + elem!.price * (orderInformation!.ingredients.filter((elemId: string) => elemId === elem?._id).length),
-//         0
-//       ),
-//     [orderIngredients]
-//   );
-// const firstSixItems = useMemo(
-//     () => orderIngredients.slice(0, countItemsMax),
-//     [orderIngredients]
-//   );
 
   const totalPrice = useMemo(
     () =>
