@@ -65,7 +65,7 @@ function OrderItem(props: TOrderProps) {
     () =>
       orderIngredients.reduce(
         (acc: number, elem) =>
-          elem ? elem?.price + acc : acc,
+          elem ? elem.price + acc : acc,
         0
       ),
     [orderIngredients]
@@ -104,7 +104,7 @@ function OrderItem(props: TOrderProps) {
       <div className={styles.filling}>
         <div className={styles.images_selection}>
           {firstSixItems &&
-            firstSixItems.map((item: TIngredientType |  undefined, i: number) => {
+            firstSixItems.map((item: TIngredientType, i: number) => {
               let zIndex = countItemsMax - i;
               let right = -2 * 10;
               let otherIngredients =

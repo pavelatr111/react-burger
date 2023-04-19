@@ -21,32 +21,32 @@ function UserOrderInfo() {
   const orderInformation= useSelector((state) => state.order.orderInformation);
   const ingredients = useSelector((state) => state.ingredients.dataBurger);
 
-  const repeatId = useMemo(
-    () => {
-      if (orderInformation === null) {
-        return null;
-      }
-      return orderInformation.ingredients.filter(
-        (item, index) => orderInformation.ingredients.indexOf(item) === index
-      )
-    }, [orderInformation]
-  );
+//   const repeatId = useMemo(
+//     () => {
+//       if (orderInformation === null) {
+//         return null;
+//       }
+//       return orderInformation.ingredients.filter(
+//         (item, index) => orderInformation.ingredients.indexOf(item) === index
+//       )
+//     }, [orderInformation]
+//   );
 
   const orderIngredients = useMemo(() => {
-    if (!repeatId) {
+    if (!orderInformation) {
       return;
     }
-    return repeatId.map((elemId: string) => {
+    return orderInformation.ingredients.map((elemId: string) => {
       return ingredients.find((elem) => elem._id === elemId);
     });
-  }, [ingredients, repeatId]);
+  }, [ingredients, orderInformation]);
 
 
   const totalPrice = useMemo(
     () =>
       orderIngredients?.reduce(
         (acc: number, elem) =>
-          elem ? elem?.price + acc : acc,
+          elem ? elem.price + acc : acc,
         0
       ),
     [orderIngredients]
