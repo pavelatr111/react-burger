@@ -1,42 +1,44 @@
+import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS } from "../actions/burgerIngredients";
 import {
+  GET_ORDER_ERROR,
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
   ORDER__POPUP,
   POST__ORDER_ERROR,
   POST__ORDER_REQUEST,
   POST__ORDER_SUCCESS,
   RESET_ORDER,
+  TOrderUnionType,
 } from "../actions/orderDitails";
 import { TIngredientType } from "../types/types";
-import { IPersonInfoUser } from "../types/types-api";
+import { IPersonInfoUser, TOrder, TwsOrderType } from "../types/types-api";
 
-type TOrder = {
-  createdAt: string;
-  ingredients: Array<TIngredientType>;
-  name: string;
-  number: number;
-  owner: IPersonInfoUser;
-  price: number;
-  status: string;
-  updatedAt: string;
-  _id: string;
-};
+
 
 type TInitialState = {
   feedRequest: boolean;
   feedFailed: boolean;
-  order: TOrder | null;
+  orders: number | null;
   orderPopupShow: boolean;
+  orderInformation: TwsOrderType | null;
+  orderInfoRequest: boolean;
+  orderInfoFailed: boolean;
 };
 
 const initialState: TInitialState = {
   feedRequest: false,
   feedFailed: false,
-  order: null,
+  orders: 0,
   orderPopupShow: false,
+  orderInformation: null,
+  orderInfoRequest: false,
+  orderInfoFailed: false
+  
 };
 
 export const orderReducer = (
   state = initialState,
-  action: { type: string; payload: TOrder }
+  action: TOrderUnionType
 ): TInitialState => {
   switch (action.type) {
     case POST__ORDER_REQUEST: {
@@ -48,7 +50,7 @@ export const orderReducer = (
     case POST__ORDER_SUCCESS: {
       return {
         ...state,
-        order: action.payload,
+        orders: action.payload,
         feedRequest: false,
         feedFailed: false,
       };
@@ -68,10 +70,33 @@ export const orderReducer = (
     }
     case RESET_ORDER: {
       return {
-        order: null,
+        ...state,
+        orders: null,
         feedRequest: false,
         feedFailed: false,
         orderPopupShow: false,
+      };
+    }
+    case GET_ORDER_REQUEST: {
+      return {
+        ...state,
+        orderInfoRequest: true,
+        orderInfoFailed: false
+      };
+    }
+    case GET_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orderInformation: action.payload,
+        orderInfoFailed: false,
+        orderInfoRequest: false
+      };
+    }
+    case GET_ORDER_ERROR: {
+      return {
+        ...state,
+        orderInfoFailed: true,
+        orderInfoRequest: false
       };
     }
     default: {

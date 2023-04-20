@@ -20,6 +20,9 @@ const BurgerItems: FC<TBurgerItemsProps> = ({ sort, style, name }) =>{
   const handleIngClick = (evt: MouseEvent<HTMLLIElement>) => {
     const id = evt.currentTarget.id;
     const current = sort.find((element: { _id: string; }) => element._id === id);
+    if(!current){
+      return
+    }
     dispatch(getCurrentIngredient(current));
   };
 

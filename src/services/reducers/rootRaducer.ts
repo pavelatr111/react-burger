@@ -7,6 +7,7 @@ import { forgotPasswordReducer } from './forgotPassword';
 import { resetPasswordReducer } from './resetPasswordReducer';
 import { registrationReducer } from './registration';
 import { loginReducer } from './login';
+import { wsReducer } from './wsReducer';
 
 
 export const rootReducer = combineReducers({
@@ -18,4 +19,5 @@ export const rootReducer = combineReducers({
     resetPassword: resetPasswordReducer,
     registration: registrationReducer,
     login: loginReducer,
+    ws: wsReducer
 });

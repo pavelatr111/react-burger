@@ -1,4 +1,4 @@
-import { REGISTRATION_ERROR, REGISTRATION_REQUEST, REGISTRATION_SUCCESS } from "../actions/registration"
+import { REGISTRATION_ERROR, REGISTRATION_REQUEST, REGISTRATION_SUCCESS, TRegistrationUnionType } from "../actions/registration"
 import { IPersonInfoUser } from "../types/types-api";
 
 type TInitialState = {
@@ -15,7 +15,7 @@ const initialState: TInitialState = {
     feedFailed: false,
 }
 
-export function registrationReducer(state = initialState, action: { type: string; payload: { success: boolean; user: IPersonInfoUser } }) {
+export function registrationReducer(state = initialState, action: TRegistrationUnionType) {
     switch (action.type) {
         case REGISTRATION_REQUEST: {
             return {

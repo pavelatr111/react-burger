@@ -1,18 +1,18 @@
 
-import { ADD__INGREDIENT, REMOVE__INGREDIENT, UPDATE_CONSTRUCTOR } from '../actions/burgerConstructor'
+import { ADD__INGREDIENT, REMOVE__INGREDIENT, TBurgerConstructorUnionType, UPDATE_CONSTRUCTOR } from '../actions/burgerConstructor'
 import { TIngredientReducerType, TIngredientType } from '../types/types'
 
-type TInitialState = {
+type TConstructorInitialState = {
     ingredients: Array<TIngredientType>,
-    buns: TIngredientReducerType | null
+    buns: TIngredientType | null
 }
 
-const initialState: TInitialState = {
+const initialState: TConstructorInitialState = {
     buns: null,
     ingredients: [],
 }
 
-export const burgerConstructorReducer = (state = initialState, action: any): TInitialState => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorUnionType): TConstructorInitialState => {
     switch (action.type) {
         case ADD__INGREDIENT: {
             if (action.payload.type === 'bun') {

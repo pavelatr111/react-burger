@@ -1,4 +1,4 @@
-import { RESET_PASSWORD_ERROR, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS } from "../actions/resetPassword"
+import { RESET_PASSWORD_ERROR, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, TResetPasswordUnionType } from "../actions/resetPassword"
 
 const initialState = {
     success: false,
@@ -7,7 +7,7 @@ const initialState = {
     feedFailed: false,
 }
 
-export function resetPasswordReducer(state = initialState, action: { type: string; payload: { success: boolean } }) {
+export function resetPasswordReducer(state = initialState, action: TResetPasswordUnionType) {
     // console.log(action.payload);
     switch (action.type) {
         case RESET_PASSWORD_REQUEST: {
@@ -20,7 +20,7 @@ export function resetPasswordReducer(state = initialState, action: { type: strin
         case RESET_PASSWORD_SUCCESS: {
             return {
                 ...state,
-                success: action.payload.success,
+                success: action.payload,
                 feedRequest: false
             }
         }

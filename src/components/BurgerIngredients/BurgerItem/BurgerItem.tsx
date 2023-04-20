@@ -2,7 +2,7 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { MouseEvent } from "react";
+import { DOMElement, MouseEventHandler } from "react";
 
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
@@ -10,7 +10,7 @@ import { TIngredientType } from "../../../services/types/types";
 
 
 type TBurgerItemProps = {
-  item: TIngredientType, style: CSSModule, count: number, handleIngClick: (evt: MouseEvent<HTMLLIElement>)=> void
+  item: TIngredientType, style: CSSModule, count: number, handleIngClick: MouseEventHandler
 }
 
 function BurgerItem({ item, style, handleIngClick, count }: TBurgerItemProps) {

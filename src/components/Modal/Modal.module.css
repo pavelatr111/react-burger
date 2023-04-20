@@ -6,7 +6,7 @@
   border-radius: 40px;
   background-color: #1c1c21;
   z-index: 10;
-  /* min-width: 720px; */
+  min-width: 720px;
 }
 
 .closeIcon {

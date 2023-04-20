@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../utils/token";
 import React from "react";
 import { useDispatch, useSelector } from "../../hooks/hooks";
-import { TIngredientType } from "../../services/types/types";
+import { TIngredientReducerType, TIngredientType } from "../../services/types/types";
 
 
 
@@ -39,12 +39,12 @@ function BurgerConstructor() {
     );
   }, [buns, ingredients]);
 
-  const [{ isHover }, dropRef] = useDrop({
+  const [, dropRef] = useDrop({
     accept: "ingredient",
-    collect: (monitor) => ({
-      isHover: monitor.isOver(),
-    }),
-    drop(item) {
+    // collect: (monitor) => ({
+    //   isHover: monitor.isOver(),
+    // }),
+    drop(item: TIngredientType) {
       dispatch(addIngredient(item));
     },
   });
@@ -59,8 +59,7 @@ function BurgerConstructor() {
     if(!buns) {
       return
     }
-      const newArray = ingredients.concat(buns);
-      const ingredientId = newArray.map((element: { _id: string; }) => element._id);
+      const ingredientId = [buns._id,...ingredients.map((element: { _id: string; }) => element._id),buns._id];
       dispatch(orderPopupAction());
       dispatch(postOrderAction(ingredientId));
     
@@ -97,7 +96,7 @@ function BurgerConstructor() {
           <div
             className={
               constructorStyle.nonFilings +
-              ` ${isHover && constructorStyle.nonFilings__hover}`
+              ` ${ constructorStyle.nonFilings__hover}`
             }
           >
             <h1

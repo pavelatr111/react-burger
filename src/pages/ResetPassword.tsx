@@ -4,10 +4,11 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {  FormEvent, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { Link, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "../hooks/hooks";
 import { useForm } from "../hooks/useForm";
-import { resetPasswordActions } from "../services/actions/resetPassword.js";
+import { resetPasswordActions } from "../services/actions/resetPassword";
 import { getCookie } from "../utils/token";
 import styles from "./App.module.css";
 
@@ -23,8 +24,8 @@ function ResetPassword() {
   });
 
   const dispatch = useDispatch();
-  const success = useSelector<any>((state) => state.forgotPassword.success);
-  const user = useSelector<any>((state) => state.login.user);
+  const success = useSelector((state) => state.forgotPassword.success);
+  const user = useSelector((state) => state.login.user);
   const suc = getCookie("access");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -35,7 +36,7 @@ function ResetPassword() {
 
   const resetHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch<any>(resetPasswordActions(values.password, values.token));
+    dispatch(resetPasswordActions(values.password, values.token));
   };
 
   if (user && suc) {
@@ -65,7 +66,7 @@ function ResetPassword() {
         placeholder={"Введите код из письма"}
         onChange={handleChange}
         value={values.token}
-        name={"name"}
+        name={"token"}
         error={false}
         ref={inputRef}
         onIconClick={onIconClick}

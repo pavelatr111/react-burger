@@ -10,8 +10,8 @@ import styles from "./ProfileForm.module.css";
 function ProfileForm() {
   const dispatch = useDispatch();
 
-  const userName = useSelector((state) => state.login.user.name);
-  const userEmail = useSelector((state) => state.login.user.email);
+  const userName = useSelector((state) => state.login.user?.name);
+  const userEmail = useSelector((state) => state.login.user?.email);
 
   const [value, setValue] = useState({
     name: "",
@@ -21,15 +21,13 @@ function ProfileForm() {
 
   useEffect(() => {
     setValue({
-      name: userName,
-      email: userEmail,
+      name: userName? userName : '',
+      email: userEmail? userEmail : '',
       password: "",
     });
   }, [userName, userEmail]);
 
-  // useEffect(() => {
-  //   dispatch(getUserActions());
-  // }, [dispatch])
+  
 
   const [isSameUserData, setIsSameUserData] = useState(true);
 
@@ -44,8 +42,8 @@ function ProfileForm() {
 
   const cancelUpdate = () => {
     setValue({
-      name: userName,
-      email: userEmail,
+      name: userName? userName : '',
+      email: userEmail? userEmail : '',
       password: "",
     });
   };

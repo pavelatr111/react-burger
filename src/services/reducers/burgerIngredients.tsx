@@ -1,11 +1,11 @@
-import { AnyAction } from "redux";
-import { CURRENT__TAB, GET_INGREDIENTS_ERROR, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS } from "../actions/burgerIngredients"
+
+import { CURRENT__TAB, GET_INGREDIENTS_ERROR, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, TBurgerIngredientUnionType } from "../actions/burgerIngredients"
 import { TIngredientType } from "../types/types";
 
 
 
 
-type TInitialState = {
+type TIngredientInitialState = {
     dataBurger: Array<TIngredientType>,
     feedRequest: Boolean,
     feedFailed: Boolean,
@@ -13,14 +13,14 @@ type TInitialState = {
   }
   
 
-const initialState: TInitialState = {
+const initialState: TIngredientInitialState = {
     feedRequest: false,
     feedFailed: false,
     dataBurger: [],
     currentTab: null
 }
 
-export const ingredientsReducer = (state = initialState, action: AnyAction): TInitialState => {
+export const ingredientsReducer = (state = initialState, action: TBurgerIngredientUnionType): TIngredientInitialState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
