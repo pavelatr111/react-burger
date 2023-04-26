@@ -25,7 +25,7 @@ type TInitialState = {
   orderInfoFailed: boolean;
 };
 
-const initialState: TInitialState = {
+export const initialStateOrderDitails: TInitialState = {
   feedRequest: false,
   feedFailed: false,
   orders: 0,
@@ -37,7 +37,7 @@ const initialState: TInitialState = {
 };
 
 export const orderReducer = (
-  state = initialState,
+  state = initialStateOrderDitails,
   action: TOrderUnionType
 ): TInitialState => {
   switch (action.type) {

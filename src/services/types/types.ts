@@ -70,3 +70,6 @@ export type TwsActionType = {
   onError: typeof WS_CONNECTION_ERROR;
   onMessage: typeof WS_GET_MESSAGE;
 };
+export interface INullTypeAction {
+  readonly type: null;
+}

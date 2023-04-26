@@ -8,10 +8,10 @@ import { TIngredientType } from "../../../services/types/types";
 import BurgerItem from "../BurgerItem/BurgerItem";
 
 type TBurgerItemsProps = {
-  sort: TIngredientType[], style: CSSModule, name: string
+  sort: TIngredientType[], style: CSSModule, name: string, id: string
 }
 
-const BurgerItems: FC<TBurgerItemsProps> = ({ sort, style, name }) =>{
+const BurgerItems: FC<TBurgerItemsProps> = ({ sort, style, name, id }) =>{
   const { buns: currentBun, ingredients: currentIngredients } =
     useSelector((state) => state.burger);
 
@@ -48,7 +48,7 @@ const BurgerItems: FC<TBurgerItemsProps> = ({ sort, style, name }) =>{
       <h3 className={"text text_type_main-medium text_color_primary pb-6"}>
         {name}
       </h3>
-      <ul className={`${style.list} 'pl-4 pr-4 '`}>
+      <ul className={`${style.list} 'pl-4 pr-4 '`} id={id}>
         {sort.map((item: TIngredientType) => {
           return (
             <BurgerItem

@@ -8,14 +8,14 @@ type TInitialState = {
     feedFailed: boolean
   }
 
-const initialState: TInitialState = {
+export const initialStateRegistration: TInitialState = {
     success: false,
     user: null,
     feedRequest: false,
     feedFailed: false,
 }
 
-export function registrationReducer(state = initialState, action: TRegistrationUnionType) {
+export function registrationReducer(state = initialStateRegistration, action: TRegistrationUnionType) {
     switch (action.type) {
         case REGISTRATION_REQUEST: {
             return {

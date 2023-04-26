@@ -53,7 +53,6 @@ export interface IGetBurgerIngredients extends IResponseBody {
     _id: string;
   };
   export type TwsOrderType = {
-    [x: string]: any;
     ingredients: Array<string>,
     _id: string,
     status: 'done' | 'created' | 'pending',
