@@ -162,3 +162,8 @@ export const orderInfoTest: TwsOrderType = {
     total: 44444,
     totalToday: 444
 }
+
+
+export const BurgerConstructorTest = "[class^=BurgerConstructor_constructorBurger]";
+export const ingredientTest = "[class^=BurgerIngredients_link]";
+export const modalCloseIcon = "[class^=Modal_closeIcon]";
