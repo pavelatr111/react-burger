@@ -9,7 +9,7 @@ type TWsState = {
   error?: string | undefined;
 };
 
-const initialState: TWsState = {
+export const initialStateWS: TWsState = {
   wsConnected: false,
   orders: [],
   total: null,
@@ -17,7 +17,7 @@ const initialState: TWsState = {
   error: undefined,
 };
 
-export const wsReducer = (state = initialState, action: TWsActions): TWsState =>{
+export const wsReducer = (state = initialStateWS, action: TWsActions): TWsState =>{
     switch (action.type) {
         case WS_CONNECTION_OPEN:
           return {

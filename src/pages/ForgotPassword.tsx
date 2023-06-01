@@ -18,18 +18,21 @@ function ForgotPassword() {
   const { values, handleChange } = useForm({
     email: "",
   });
+  
+  
   const dispatch = useDispatch();
   const success = useSelector((state) => state.forgotPassword.success);
   const user = useSelector((state) => state.login.user);
   const suc = getCookie("access");
 
-  const sendEmail = useCallback(
-    (evt: FormEvent<HTMLFormElement>) => {
+  function  sendEmail
+    (evt: FormEvent<HTMLFormElement>) {
       evt.preventDefault();
       dispatch(forgotPasswordActions(values.email));
-    },
-    [dispatch]
-  );
+    }
+  
+
+  
 
   if (success) {
     return <Navigate to={"/reset-password"} />;

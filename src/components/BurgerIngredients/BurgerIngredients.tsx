@@ -75,13 +75,13 @@ function BurgerIngredients() {
       <div className={burgerStyle.wrapper}>
         <div className={`${burgerStyle.scroll} custom-scroll pt-10`}>
           <div ref={bunRef} id="bun">
-            <BurgerItems sort={buns} style={burgerStyle} name={"Булки"} />
+            <BurgerItems sort={buns} style={burgerStyle}   name={"Булки"} id='bunsId' />
           </div>
           <div ref={sauceRef} id="sauce">
-            <BurgerItems sort={sauces} style={burgerStyle} name={"Соусы"} />
+            <BurgerItems sort={sauces} style={burgerStyle} name={"Соусы"} id='sauceId' />
           </div>
           <div ref={mainRef} id="main">
-            <BurgerItems sort={mains} style={burgerStyle} name={"Начинки"} />
+            <BurgerItems sort={mains} style={burgerStyle} name={"Начинки"} id='mainId'/>
           </div>
         </div>
       </div>

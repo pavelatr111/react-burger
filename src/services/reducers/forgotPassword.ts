@@ -6,14 +6,14 @@ type TInitialState = {
     feedRequest: boolean,
     feedFailed: boolean,
   }
-const initialState: TInitialState = {
+export const initialStateForgot: TInitialState = {
     success: false,
     message: '',
     feedRequest: false,
     feedFailed: false,
 }
 
-export function forgotPasswordReducer(state = initialState, action: TForgotPasswordUnionType) {
+export function forgotPasswordReducer(state = initialStateForgot, action: TForgotPasswordUnionType) {
     switch (action.type) {
         case FORGOT_PASSWORD_REQUEST: {
             return {

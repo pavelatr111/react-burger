@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { TIngredientReducerType, TIngredientType } from '../types/types';
+import { INullTypeAction, TIngredientReducerType, TIngredientType } from '../types/types';
 
 export const ADD__INGREDIENT: 'ADD__INGREDIENT' = 'ADD__INGREDIENT'
 export const REMOVE__INGREDIENT: 'REMOVE__INGREDIENT' = 'REMOVE__INGREDIENT'
@@ -23,6 +23,7 @@ export type TBurgerConstructorUnionType =
 | IAddIngredientAction
 | IRemoveIngredientAction
 | IUpdateIngredientAction
+| INullTypeAction
 
 export const addIngredient = (payload: TIngredientType):IAddIngredientAction => ({
     type: ADD__INGREDIENT,

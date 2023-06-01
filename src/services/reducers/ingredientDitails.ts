@@ -6,11 +6,11 @@ type TCurrentIngredientInitialState = {
     currentIngredient: TIngredientType | null
   }
 
-const initialState:  TCurrentIngredientInitialState = {
+export const initialStateCurrent:  TCurrentIngredientInitialState = {
     currentIngredient: null
 }
 
-export const currentIngredientReducer = (state = initialState, action: TCurrentIngredientUnionType): TCurrentIngredientInitialState=> {
+export const currentIngredientReducer = (state = initialStateCurrent, action: TCurrentIngredientUnionType): TCurrentIngredientInitialState=> {
     switch (action.type) {
         case GET__CURRENT_INGREDIENT: {
             return {

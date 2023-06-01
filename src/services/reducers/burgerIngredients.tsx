@@ -13,7 +13,7 @@ type TIngredientInitialState = {
   }
   
 
-const initialState: TIngredientInitialState = {
+export const initialState: TIngredientInitialState = {
     feedRequest: false,
     feedFailed: false,
     dataBurger: [],

@@ -1,14 +1,14 @@
 import { RESET_PASSWORD_ERROR, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, TResetPasswordUnionType } from "../actions/resetPassword"
 
-const initialState = {
+export const initialStateResetPassword = {
     success: false,
     message: '',
     feedRequest: false,
     feedFailed: false,
 }
 
-export function resetPasswordReducer(state = initialState, action: TResetPasswordUnionType) {
-    // console.log(action.payload);
+export function resetPasswordReducer(state = initialStateResetPassword, action: TResetPasswordUnionType) {
+
     switch (action.type) {
         case RESET_PASSWORD_REQUEST: {
             return {

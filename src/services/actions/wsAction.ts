@@ -9,7 +9,7 @@ export const WS_GET_MESSAGE: 'WS_GET_MESSAGE' = 'WS_GET_MESSAGE';
 export const WS_CONNECTION_DISCONNECT: 'WS_CONNECTION_DISCONNECT' = 'WS_CONNECTION_DISCONNECT';
 
 
-interface IMessage {
+export interface IMessage {
     orders: TwsOrderType[],
     total: number ,
     totalToday: number 
